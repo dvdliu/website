@@ -10,7 +10,7 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
+  <!-- :root {
     --ink: #0f0f0e;
     --ink-muted: #6b6b65;
     --ink-faint: #c2c1ba;
@@ -20,6 +20,18 @@
     --accent: #1a1a18;
     --mono: 'DM Mono', monospace;
     --serif: 'Fraunces', serif;
+  } -->
+
+  :root {
+    --ink: #111111;
+    --ink-muted: #555555;
+    --ink-faint: #b5b5b5;
+
+    --paper: #ffffff;
+    --paper-warm: #ffffff;
+
+    --rule: #e6e6e6;
+    --accent: #000000;
   }
 
   html { scroll-behavior: smooth; }
@@ -576,8 +588,8 @@
 
     <div class="aside-footer">
       <a href="mailto:dliu10255@gmail.com">dliu10255@gmail.com</a>
-      <a href="#">github.com/davidliu</a>
-      <a href="#">linkedin.com/in/davidliu</a>
+      <a href="github.com/dvdliu">github.com/dvdliu</a>
+      <a href="linkedin.com/in/davdliu2003/">linkedin.com/in/davdliu2003/</a>
     </div>
   </aside>
 
@@ -727,7 +739,22 @@
 
     <!-- RESUME / EXPERIENCE -->
     <section id="resume">
-      <div class="section-label">03 — Experience</div>
+      <div style="display:flex; align-items:center; gap:65px; margin-bottom:40px;">
+  
+        <div class="section-label" style="margin-bottom:0;">
+          03 — Experience
+        </div>
+
+        <a 
+          href="resume.pdf" 
+          target="_blank"
+          class="project-link"
+          style="padding:8px 16px;"
+        >
+          Download Resume →
+        </a>
+
+      </div>
 
       <div class="exp-list">
 
