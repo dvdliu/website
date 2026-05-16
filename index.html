@@ -1,5 +1,13 @@
 <!DOCTYPE html>
-<!-- TODO Add pictures, thumbnails, and replace ml project -->
+<!--
+  Images live in the /images folder. To swap them, drop in:
+    images/davidpfp.jpg    — hero portrait (in section 000)
+    images/project-1.jpg   — Distributed Filesystem thumbnail
+    images/project-2.jpg   — Widescreen thumbnail
+    images/project-3.jpg   — Doodle Room thumbnail
+    images/project-4.jpg   — Operating System thumbnail
+  Anything missing falls back to a friendly gradient placeholder.
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -7,7 +15,7 @@
 <title>David Liu — Fullstack Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -20,8 +28,8 @@
     --paper-warm: #efece5;
     --rule: #d8d5cc;
     --accent: #1a1a18;
-    --mono: 'DM Mono', monospace;
-    --serif: 'Fraunces', serif;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
   }
 
   body.dark-mode {
@@ -29,10 +37,10 @@
     --ink-muted: #b0b0b0;
     --ink-faint: #6e6e6e;
 
-    --paper: #0f0f10;
-    --paper-warm: #151515;
+    --paper: #131316;
+    --paper-warm: #1b1b1f;
 
-    --rule: #262626;
+    --rule: #2a2a2e;
     --accent: #ffffff;
   }
 
@@ -41,28 +49,33 @@
     --ink-muted: #555555;
     --ink-faint: #b5b5b5;
 
-    --paper: #ffffff;
-    --paper-warm: #ffffff;
+    --paper: #fdfaf3;
+    --paper-warm: #f5f0e3;
 
-    --rule: #e6e6e6;
+    --rule: #e8e3d4;
     --accent: #000000;
+
+    --pop-1: #ffd93d;
+    --pop-2: #ff8a5b;
+    --pop-3: #6dc9c1;
   }
 
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: var(--mono);
+    font-family: var(--display);
     background: var(--paper);
     color: var(--ink);
     font-size: 15px;
-    line-height: 1.7;
+    line-height: 1.65;
     overflow-x: hidden;
+    font-weight: 400;
   }
 
   /* ─── GRID SYSTEM ─── */
   .grid-wrap {
     display: grid;
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 240px 1fr;
     min-height: 100vh;
   }
 
@@ -84,53 +97,60 @@
     margin-top: 32px;
 
     background: transparent;
-    border: 1px solid var(--rule);
+    border: 1.5px solid var(--rule);
+    border-radius: 999px;
 
     color: var(--ink-muted);
 
     font-family: var(--mono);
     font-size: 10px;
+    font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
 
-    padding: 10px 14px;
+    padding: 10px 16px;
 
     cursor: pointer;
 
     transition:
       border-color 0.15s,
       color 0.15s,
-      background 0.15s;
+      background 0.15s,
+      transform 0.15s;
   }
 
   .theme-toggle:hover {
     border-color: var(--ink);
     color: var(--ink);
+    transform: translateY(-1px);
   }
 
   .logo {
-    font-family: var(--serif);
-    font-weight: 300;
-    font-style: italic;
-    font-size: 22px;
-    letter-spacing: -0.02em;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: -0.04em;
     color: var(--ink);
     margin-bottom: 2px;
-    line-height: 1.1;
+    line-height: 1;
   }
 
   .logo-sub {
+    font-family: var(--mono);
     font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-muted);
     margin-bottom: 40px;
+    margin-top: 6px;
   }
 
   nav { display: flex; flex-direction: column; gap: 2px; }
 
   nav a {
+    font-family: var(--mono);
     font-size: 12px;
+    font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-muted);
@@ -147,8 +167,9 @@
   nav a::before {
     content: '';
     width: 16px;
-    height: 1px;
+    height: 3px;
     background: var(--ink-faint);
+    border-radius: 2px;
     transition: width 0.2s, background 0.2s;
     flex-shrink: 0;
   }
@@ -164,9 +185,10 @@
 
   .aside-footer {
     margin-top: auto;
+    font-family: var(--mono);
     font-size: 12px;
     color: var(--ink-faint);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
   }
 
   .aside-footer a {
@@ -183,14 +205,16 @@
   main { padding: 0; }
 
   section {
-    padding: 72px 64px;
+    padding: 80px 64px;
     border-bottom: 1px solid var(--rule);
   }
 
   section:last-child { border-bottom: none; }
 
   .section-label {
-    font-size: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ink-faint);
@@ -203,22 +227,85 @@
   .section-label::after {
     content: '';
     flex: 1;
-    height: 1px;
+    height: 2px;
     background: var(--rule);
+    border-radius: 2px;
     max-width: 80px;
   }
 
   /* ─── HERO ─── */
   #hero {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: minmax(0, 580px) 320px;
+    gap: 96px;
+    justify-content: start;
+    align-items: center;
     padding: 72px 64px;
   }
 
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .hero-image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 18px;
+    background:
+      linear-gradient(135deg, var(--pop-1) 0%, var(--pop-2) 55%, var(--pop-3) 110%);
+    overflow: hidden;
+    position: relative;
+    border: 2px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--ink);
+    transform: rotate(2deg);
+    transition: transform 0.2s;
+    transform-style: preserve-3d;
+  }
+
+  .hero-image:hover { transform: rotate(0deg) translateY(-2px); }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-image .placeholder-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    pointer-events: none;
+    text-align: center;
+    padding: 16px;
+  }
+
+  .hero-image .placeholder-icon {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 72px;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
   .hero-index {
-    font-size: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-faint);
@@ -226,27 +313,38 @@
   }
 
   .hero-name {
-    line-height: 1;
-    font-family: var(--serif);
-    font-weight: 300;
-    font-size: clamp(52px, 7vw, 88px);
-    letter-spacing: -0.03em;
-    line-height: 0.95;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(56px, 8vw, 104px);
+    letter-spacing: -0.045em;
+    line-height: 0.9;
     color: var(--ink);
     margin-bottom: 32px;
   }
 
-  .hero-name em {
-    font-style: italic;
-    color: var(--ink-muted);
+  .hero-name .accent {
+    color: var(--ink);
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-name .accent::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6%;
+    height: 18%;
+    background: var(--pop-1);
+    z-index: -1;
+    border-radius: 4px;
   }
 
   .hero-desc {
-    max-width: 480px;
-    font-size: 16px;
-    line-height: 1.9;
+    max-width: 520px;
+    font-size: 17px;
+    line-height: 1.65;
     color: var(--ink-muted);
-    line-height: 1.8;
     margin-bottom: 40px;
   }
 
@@ -257,19 +355,23 @@
   }
 
   .tag {
-    font-size: 10px;
-    letter-spacing: 0.1em;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-muted);
-    border: 1px solid var(--rule);
-    padding: 5px 12px;
-    background: transparent;
-    transition: border-color 0.15s, color 0.15s;
+    border: 1.5px solid var(--rule);
+    border-radius: 999px;
+    padding: 6px 14px;
+    background: var(--paper-warm);
+    transition: border-color 0.15s, color 0.15s, transform 0.15s;
   }
 
   .tag:hover {
-    border-color: var(--ink-muted);
+    border-color: var(--ink);
     color: var(--ink);
+    transform: translateY(-1px);
   }
 
   /* ─── ABOUT ─── */
@@ -277,45 +379,53 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 48px;
+    align-items: start;
   }
 
   .about-bio {
-    font-size: 14px;
-    line-height: 1.9;
+    font-size: 15px;
+    line-height: 1.75;
     color: var(--ink-muted);
   }
 
   .about-bio strong {
     color: var(--ink);
-    font-weight: 500;
+    font-weight: 600;
   }
+
+  .about-bio p + p { margin-top: 14px; }
 
   .about-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1px;
-    background: var(--rule);
-    border: 1px solid var(--rule);
+    background: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    overflow: hidden;
     align-self: start;
+    box-shadow: 6px 6px 0 var(--ink);
   }
 
   .stat-cell {
     background: var(--paper);
-    padding: 20px 24px;
+    padding: 22px 24px;
   }
 
   .stat-num {
-    font-family: var(--serif);
-    font-weight: 300;
-    font-size: 32px;
-    letter-spacing: -0.03em;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 36px;
+    letter-spacing: -0.04em;
     color: var(--ink);
     line-height: 1;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .stat-label {
+    font-family: var(--mono);
     font-size: 10px;
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink-faint);
@@ -326,7 +436,7 @@
 
   .project-row {
     display: grid;
-    grid-template-columns: 48px 1fr 160px auto;
+    grid-template-columns: 40px 110px 1fr 160px auto;
     align-items: start;
     gap: 24px;
     padding: 28px 0;
@@ -338,58 +448,120 @@
   .project-row:last-child { border-bottom: 1px solid var(--rule); }
 
   .project-num {
-    font-size: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
     letter-spacing: 0.1em;
     color: var(--ink-faint);
-    padding-top: 2px;
+    padding-top: 6px;
     text-align: right;
   }
 
-  .project-name {
-    font-family: var(--serif);
-    font-weight: 300;
-    font-size: 22px;
+  .project-thumb {
+    width: 110px;
+    height: 110px;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    flex-shrink: 0;
+  }
+
+  .project-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .project-thumb .placeholder-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--ink);
-    letter-spacing: -0.01em;
+    text-align: center;
+    padding: 8px;
+  }
+
+  .project-thumb .placeholder-icon {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .project-thumb.t1 { background: linear-gradient(135deg, var(--pop-3), var(--pop-1)); }
+  .project-thumb.t2 { background: linear-gradient(135deg, var(--pop-2), #ff5ea8); }
+  .project-thumb.t3 { background: linear-gradient(135deg, var(--pop-1), var(--pop-2)); }
+  .project-thumb.t4 { background: linear-gradient(135deg, #7b8cff, var(--pop-3)); }
+
+  .project-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
     margin-bottom: 6px;
+    line-height: 1.1;
   }
 
   .project-desc {
-    font-size: 14px;
+    font-size: 14.5px;
     color: var(--ink-muted);
-    line-height: 1.9;
+    line-height: 1.7;
   }
+
+  .project-desc a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 
   .project-stack {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding-top: 3px;
+    padding-top: 6px;
   }
 
   .stack-item {
+    font-family: var(--mono);
     font-size: 10px;
+    font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-faint);
   }
 
   .project-link {
-    font-size: 10px;
-    letter-spacing: 0.1em;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink-muted);
+    color: var(--ink);
     text-decoration: none;
-    border: 1px solid var(--rule);
-    padding: 6px 14px;
-    transition: border-color 0.15s, color 0.15s;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 8px 16px;
+    background: var(--paper);
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
     white-space: nowrap;
     align-self: start;
+    margin-top: 4px;
   }
 
   .project-link:hover {
-    border-color: var(--ink);
-    color: var(--ink);
+    background: var(--pop-1);
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0 var(--ink);
   }
 
   /* ─── EXPERIENCE (Resume) ─── */
@@ -406,7 +578,9 @@
   }
 
   .exp-years {
-    font-size: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink-faint);
@@ -414,24 +588,26 @@
   }
 
   .exp-company {
-    font-size: 11px;
+    font-family: var(--mono);
+    font-size: 12px;
     color: var(--ink-muted);
     letter-spacing: 0.04em;
   }
 
   .exp-title {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-weight: 300;
-    letter-spacing: -0.01em;
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     color: var(--ink);
     margin-bottom: 10px;
+    line-height: 1.1;
   }
 
   .exp-body {
-    font-size: 14px;
+    font-size: 14.5px;
     color: var(--ink-muted);
-    line-height: 1.9;
+    line-height: 1.75;
   }
 
   .exp-bullets {
@@ -439,20 +615,22 @@
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
 
   .exp-bullets li {
-    font-size: 12px;
+    font-size: 13.5px;
     color: var(--ink-muted);
     display: flex;
     gap: 10px;
+    line-height: 1.6;
   }
 
   .exp-bullets li::before {
-    content: '—';
-    color: var(--ink-faint);
+    content: '▸';
+    color: var(--pop-2);
     flex-shrink: 0;
+    font-weight: 700;
   }
 
   /* ─── SKILLS ─── */
@@ -460,8 +638,11 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1px;
-    background: var(--rule);
-    border: 1px solid var(--rule);
+    background: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 6px 6px 0 var(--ink);
   }
 
   .skill-group {
@@ -470,118 +651,174 @@
   }
 
   .skill-group-label {
-    font-size: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--ink-faint);
+    color: var(--ink);
     margin-bottom: 14px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 2px solid var(--rule);
   }
 
   .skill-items {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
   }
 
   .skill-item {
-    font-size: 14px;
+    font-size: 14.5px;
     color: var(--ink-muted);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
 
   .skill-item::before {
     content: '';
-    width: 4px;
-    height: 4px;
-    background: var(--ink-faint);
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--pop-2);
     flex-shrink: 0;
   }
 
   /* ─── CONTACT ─── */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: start;
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 560px;
+    margin-left: auto;
   }
-
-  .contact-heading {
-    font-family: var(--serif);
-    font-weight: 300;
-    font-size: 38px;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    color: var(--ink);
-    margin-bottom: 16px;
-  }
-
-  .contact-heading em { font-style: italic; color: var(--ink-muted); }
-
-  .contact-note {
-    font-size: 12px;
-    color: var(--ink-muted);
-    line-height: 1.8;
-    margin-bottom: 28px;
-  }
-
-  .contact-links { display: flex; flex-direction: column; gap: 12px; }
 
   .contact-link-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 0;
+    padding: 18px 0;
     border-bottom: 1px solid var(--rule);
   }
 
   .contact-link-row:first-child { border-top: 1px solid var(--rule); }
 
   .contact-link-label {
-    font-size: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-faint);
   }
 
   .contact-link-val {
-    font-size: 12px;
-    color: var(--ink-muted);
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
     text-decoration: none;
     transition: color 0.15s;
   }
 
-  .contact-link-val:hover { color: var(--ink); }
+  .contact-link-val:hover { color: var(--pop-2); }
 
-  /* ─── AVAILABILITY ─── */
-  .availability-pill {
-    display: inline-flex;
+  /* ─── FLIP CARDS ─── */
+  .flip-card {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .flip-card .flip-inner {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .flip-card.flipped .flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card .flip-front,
+  .flip-card .flip-back {
+    position: absolute;
+    inset: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+  }
+
+  .flip-card .flip-back {
+    transform: rotateY(180deg);
+    background: var(--paper-warm);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 6px;
+    text-align: center;
+    padding: 22px;
+    gap: 10px;
+  }
+
+  .flip-hint {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .flip-card.flipped .flip-hint { opacity: 0; }
+
+  .flip-back-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+
+  .flip-back-text {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  .flip-back-meta {
+    font-family: var(--mono);
     font-size: 10px;
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--ink-muted);
-    border: 1px solid var(--rule);
-    padding: 6px 14px;
-    margin-bottom: 28px;
+    color: var(--pop-2);
   }
 
-  .availability-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #4a8c5c;
-    animation: pulse 2.5s infinite;
-  }
+  /* Sized variants */
+  .project-thumb .flip-hint { top: 4px; right: 4px; width: 18px; height: 18px; font-size: 10px; }
+  .project-thumb .flip-back { padding: 10px; gap: 4px; background: var(--paper); }
+  .project-thumb .flip-back-title { font-size: 13px; }
+  .project-thumb .flip-back-text { font-size: 9.5px; line-height: 1.35; }
+  .project-thumb .flip-back-meta { font-size: 8.5px; }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+  .hero-image .flip-back { padding: 30px; gap: 14px; }
+  .hero-image .flip-back-title { font-size: 30px; }
+  .hero-image .flip-back-text { font-size: 13px; line-height: 1.6; max-width: 220px; }
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 900px) {
@@ -601,14 +838,16 @@
     nav { flex-direction: row; flex-wrap: wrap; gap: 0 24px; }
     nav a::before { display: none; }
     .aside-footer { display: none; }
-    #hero { min-height: auto; padding: 48px 32px; }
+    #hero { min-height: auto; padding: 48px 32px; grid-template-columns: 1fr; gap: 32px; }
+    .hero-image { max-width: 280px; transform: rotate(0); }
     section { padding: 48px 32px; }
     .about-grid { grid-template-columns: 1fr; }
-    .project-row { grid-template-columns: 32px 1fr; }
+    .project-row { grid-template-columns: 80px 1fr; gap: 16px; }
+    .project-num { display: none; }
+    .project-thumb { width: 80px; height: 80px; }
     .project-stack, .project-link { display: none; }
     .exp-item { grid-template-columns: 1fr; gap: 8px; }
     .skills-grid { grid-template-columns: 1fr 1fr; }
-    .contact-grid { grid-template-columns: 1fr; }
     .theme-toggle {
       margin-top: 0;
       margin-left: auto;
@@ -630,7 +869,6 @@
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#resume">Experience</a>
-      <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </nav>
 
@@ -654,23 +892,41 @@
 
     <!-- HERO -->
   <section id="hero">
-    <div class="hero-index">00 — Portfolio</div>
+    <div class="hero-text">
+      <div class="hero-index">00 — Portfolio</div>
 
-    <h1 class="hero-name">
-      David<br /><em>Liu</em>
-    </h1>
+      <h1 class="hero-name">
+        David<br /><span class="accent">Liu</span>
+      </h1>
 
-    <p class="hero-desc">
-      Software engineer focused on full-stack systems, scalable backend services,
-      and product-driven engineering. I enjoy building reliable software that
-      bridges clean user experiences with thoughtful infrastructure and system design.
-    </p>
+      <p class="hero-desc">
+        Hi there! I'm a software engineer focused on full-stack systems, scalable backend services,
+        and product-driven engineering. I enjoy building reliable software that
+        bridges clean user experiences with thoughtful infrastructure and maintainable systems. Thanks for checking out my profile!
+      </p>
 
-    <div class="hero-tags">
-      <span class="tag">Full-Stack Engineering</span>
-      <span class="tag">Distributed Systems</span>
-      <span class="tag">React / Node.js</span>
-      <span class="tag">Open to Work</span>
+      <div class="hero-tags">
+        <span class="tag">Full-Stack Engineering</span>
+        <span class="tag">Distributed Systems</span>
+        <span class="tag">React / C++ / Python</span>
+        <span class="tag">Open to Work</span>
+      </div>
+    </div>
+
+    <div class="hero-image flip-card" tabindex="0" role="button" aria-label="Flip for intro">
+      <span class="flip-hint">↻</span>
+      <div class="flip-inner">
+        <div class="flip-front">
+          <img src="images/davidpfp.jpg" alt="David Liu" />
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-meta">Hello —</div>
+          <div class="flip-back-title">I'm David.</div>
+          <div class="flip-back-text">
+            Welcome to my website! This is something that I vibe-coded using claude. You can view the repo and discussion <a href="https://github.com/dvdliu/website" target="_blank">here</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -678,20 +934,20 @@
     <section id="about">
       <div class="section-label">01 — About</div>
       <div class="about-grid">
-        <div>
-          <p class="about-bio">
+
+        <div class="about-bio">
+          <p>
             I'm a software engineer with experience building full-stack applications,
             backend systems, and developer-focused tooling. My work spans frontend
             interfaces, distributed services, authentication systems, and infrastructure
-            monitoring — with a strong focus on reliability and maintainability.
+            monitoring — with a strong focus on reliability and maintainability. 
+            I also enjoy building apps and tools that I regularly use, check out <a href="#projects">my projects below</a>!
           </p>
 
-          <br />
-
-          <p class="about-bio">
-            At Whova, I work on registration systems and third-party integrations,
+          <p>
+            At <strong>Whova</strong>, I work on their registration systems and third-party integrations,
             contributing across the stack from frontend UX to backend architecture.
-            I’m especially interested in systems programming, web infrastructure,
+            I'm especially interested in systems programming, web infrastructure,
             and scalable application design.
           </p>
         </div>
@@ -728,11 +984,30 @@
           <div class="project-row">
             <div class="project-num">000</div>
 
+            <!-- Drop "images/project-1.jpg" to replace placeholder -->
+            <div class="project-thumb t1 flip-card" tabindex="0" role="button" aria-label="Flip for project info">
+              <span class="flip-hint">↻</span>
+              <div class="flip-inner">
+                <div class="flip-front">
+                  <div class="placeholder-label">
+                    <span class="placeholder-icon">▦</span>
+                    <span>project-1.jpg</span>
+                  </div>
+                  <img src="images/project-1.jpg" alt="Distributed Filesystem" onerror="this.style.display='none'" />
+                </div>
+                <div class="flip-back">
+                  <div class="flip-back-meta">In progress</div>
+                  <div class="flip-back-title">DistFS</div>
+                  <div class="flip-back-text">Go · learning storage primitives</div>
+                </div>
+              </div>
+            </div>
+
             <div>
               <div class="project-name">Distributed Filesystem</div>
 
               <div class="project-desc">
-                An ongoing systems project I'm working on implementing a distributed file storage layer
+                An ongoing systems project that I'm working on. This project implements a distributed file storage layer
                 with replication, fault tolerance, and consistent metadata management.
                 Focused on building core primitives including chunk storage, node coordination,
                 and failure recovery mechanisms, and will be something I plan to use in the future to store my files.
@@ -753,6 +1028,25 @@
           <div class="project-row">
             <div class="project-num">001</div>
 
+            <!-- Drop "images/project-2.jpg" to replace placeholder -->
+            <div class="project-thumb t2 flip-card" tabindex="0" role="button" aria-label="Flip for project info">
+              <span class="flip-hint">↻</span>
+              <div class="flip-inner">
+                <div class="flip-front">
+                  <div class="placeholder-label">
+                    <span class="placeholder-icon">▶</span>
+                    <span>project-2.jpg</span>
+                  </div>
+                  <img src="images/project-2.jpg" alt="Widescreen" onerror="this.style.display='none'" />
+                </div>
+                <div class="flip-back">
+                  <div class="flip-back-meta">2023</div>
+                  <div class="flip-back-title">Widescreen</div>
+                  <div class="flip-back-text">React · Node · Mongo · Letterboxd API</div>
+                </div>
+              </div>
+            </div>
+
             <div>
               <div class="project-name">Widescreen</div>
 
@@ -769,42 +1063,80 @@
               <span class="stack-item">MongoDB</span>
             </div>
 
-            <a href="https://github.com/dvdliu/letterbox-intr-app" class="project-link">View →</a>
+            <a href="https://github.com/dvdliu/letterbox-intr-app" target="_blank" class="project-link">View →</a>
           </div>
 
           <div class="project-row">
-  <div class="project-num">002</div>
+            <div class="project-num">002</div>
 
-      <div>
-        <div class="project-name">Doodle Room</div>
+            <!-- Drop "images/project-3.jpg" to replace placeholder -->
+            <div class="project-thumb t3 flip-card" tabindex="0" role="button" aria-label="Flip for project info">
+              <span class="flip-hint">↻</span>
+              <div class="flip-inner">
+                <div class="flip-front">
+                  <div class="placeholder-label">
+                    <span class="placeholder-icon">✎</span>
+                    <span>project-3.jpg</span>
+                  </div>
+                  <img src="images/project-3.jpg" alt="Doodle Room" onerror="this.style.display='none'" />
+                </div>
+                <div class="flip-back">
+                  <div class="flip-back-meta">For fun</div>
+                  <div class="flip-back-title">Doodle Room</div>
+                  <div class="flip-back-text">Java · WebSockets · skribbl-style canvas</div>
+                </div>
+              </div>
+            </div>
 
-        <div class="project-desc">
-          A real-time collaborative whiteboard built with Java WebSockets and
-          vanilla JavaScript. Something that I implemented to use and have fun with friends! Supports synchronized drawing, cursor tracking,
-          shared canvas state replay for late joiners, and multi-user
-          collaboration inspired by <a href="https://skribbl.io">skribbl.io</a>
-        </div>
-      </div>
+            <div>
+              <div class="project-name">Doodle Room</div>
 
-      <div class="project-stack">
-        <span class="stack-item">Java</span>
-        <span class="stack-item">WebSockets</span>
-        <span class="stack-item">JavaScript</span>
-      </div>
+              <div class="project-desc">
+                This project is a real-time collaborative whiteboard built with Java WebSockets and
+                vanilla JavaScript. Something that I implemented to use and have fun with friends! Supports synchronized drawing, cursor tracking,
+                shared canvas state replay for late joiners, and multi-user
+                collaboration inspired by <a href="https://skribbl.io" target="_blank">skribbl.io</a>
+              </div>
+            </div>
 
-      <a href="https://github.com/dvdliu/whiteboard-collab-skribbl/tree/master" class="project-link">View →</a>
-    </div>
+            <div class="project-stack">
+              <span class="stack-item">Java</span>
+              <span class="stack-item">JavaScript</span>
+              <span class="stack-item">WebSockets</span>
+            </div>
+
+            <a href="https://github.com/dvdliu/whiteboard-collab-skribbl/tree/master" target="_blank" class="project-link">View →</a>
+          </div>
 
           <div class="project-row">
             <div class="project-num">003</div>
 
+            <!-- Drop "images/project-4.jpg" to replace placeholder -->
+            <div class="project-thumb t4 flip-card" tabindex="0" role="button" aria-label="Flip for project info">
+              <span class="flip-hint">↻</span>
+              <div class="flip-inner">
+                <div class="flip-front">
+                  <div class="placeholder-label">
+                    <span class="placeholder-icon">⌘</span>
+                    <span>project-4.jpg</span>
+                  </div>
+                  <img src="images/project-4.jpg" alt="Operating System" onerror="this.style.display='none'" />
+                </div>
+                <div class="flip-back">
+                  <div class="flip-back-meta">Coursework</div>
+                  <div class="flip-back-title">Mini OS</div>
+                  <div class="flip-back-text">C++ · threads · pager · networked FS</div>
+                </div>
+              </div>
+            </div>
+
             <div>
               <div class="project-name">Operating System</div>
-
               <div class="project-desc">
-                Built a mock operating system in C++ featuring a custom thread library,
-                virtual memory pager, and networked file system. Focused on efficient
-                scheduling, memory management, and filesystem design.
+                Mock operating system built in C++ featuring a custom thread library,
+                virtual memory pager, and networked file system. Originally started from
+                a class operating systems project, then expanded into a larger systems
+                project focused on scheduling, memory management, and filesystem design.
               </div>
             </div>
 
@@ -814,7 +1146,7 @@
               <span class="stack-item">Systems</span>
             </div>
 
-            <a href="https://github.com/dvdliu/Operation-System-Proj-C" class="project-link">View →</a>
+            <a href="https://github.com/dvdliu/Operation-System-Proj-C" target="_blank" class="project-link">View →</a>
           </div>
         </div>
     </section>
@@ -822,16 +1154,15 @@
     <!-- RESUME / EXPERIENCE -->
     <section id="resume">
       <div style="display:flex; align-items:center; gap:65px; margin-bottom:40px;">
-  
+
         <div class="section-label" style="margin-bottom:0;">
           03 — Experience
         </div>
 
-        <a 
-          href="resume.pdf" 
+        <a
+          href="resume.pdf"
           target="_blank"
           class="project-link"
-          style="padding:8px 16px;"
         >
           Download Resume →
         </a>
@@ -923,107 +1254,34 @@
       </div>
     </section>
 
-    <!-- SKILLS -->
-    <section id="skills">
-      <div class="section-label">04 — Skills</div>
-
-      <div class="skills-grid">
-
-        <div class="skill-group">
-          <div class="skill-group-label">Languages</div>
-          <div class="skill-items">
-            <span class="skill-item">Python</span>
-            <span class="skill-item">C / C++</span>
-            <span class="skill-item">JavaScript</span>
-            <span class="skill-item">Golang</span>
-            <span class="skill-item">SQL</span>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <div class="skill-group-label">Frontend</div>
-          <div class="skill-items">
-            <span class="skill-item">React.js</span>
-            <span class="skill-item">Redux</span>
-            <span class="skill-item">HTML / CSS</span>
-            <span class="skill-item">Tailwind CSS</span>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <div class="skill-group-label">Backend</div>
-          <div class="skill-items">
-            <span class="skill-item">Node.js</span>
-            <span class="skill-item">Express</span>
-            <span class="skill-item">REST APIs</span>
-            <span class="skill-item">OAuth 2.0</span>
-            <span class="skill-item">MongoDB</span>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <div class="skill-group-label">Infrastructure</div>
-          <div class="skill-items">
-            <span class="skill-item">Datadog</span>
-            <span class="skill-item">Linux</span>
-            <span class="skill-item">CI/CD</span>
-            <span class="skill-item">Monitoring & Observability</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
     <!-- CONTACT -->
     <section id="contact">
-      <div class="section-label">05 — Contact</div>
+      <div class="section-label">04 — Contact</div>
 
-      <div class="contact-grid">
+      <div class="contact-links">
 
-        <div>
-          <div class="availability-pill">
-            <span class="availability-dot"></span>
-            Open to opportunities
-          </div>
-
-          <h2 class="contact-heading">
-            Building thoughtful<br />
-            <em>software systems</em><br />
-            across the stack.
-          </h2>
-
-          <p class="contact-note">
-            Currently working as a software engineer at Whova with interests in
-            full-stack engineering, infrastructure, and distributed systems.
-            Based in San Diego and open to new opportunities.
-          </p>
+        <div class="contact-link-row">
+          <span class="contact-link-label">Email</span>
+          <a href="mailto:dliu10255@gmail.com" class="contact-link-val">
+            dliu10255@gmail.com
+          </a>
         </div>
 
-        <div class="contact-links">
-
-          <div class="contact-link-row">
-            <span class="contact-link-label">Email</span>
-            <a href="mailto:dliu10255@gmail.com" class="contact-link-val">
-              dliu10255@gmail.com
-            </a>
-          </div>
-
-          <div class="contact-link-row">
-            <span class="contact-link-label">Phone</span>
-            <span class="contact-link-val">(803) 446-2578</span>
-          </div>
-
-          <div class="contact-link-row">
-            <span class="contact-link-label">Location</span>
-            <span class="contact-link-val">San Diego, California</span>
-          </div>
-
-          <div class="contact-link-row">
-            <span class="contact-link-label">Education</span>
-            <span class="contact-link-val">University of Michigan</span>
-          </div>
-
+        <div class="contact-link-row">
+          <span class="contact-link-label">Phone</span>
+          <a href="tel:+18034462578" class="contact-link-val">(803) 446-2578</a>
         </div>
+
+        <div class="contact-link-row">
+          <span class="contact-link-label">GitHub</span>
+          <a href="https://github.com/dvdliu" target="_blank" class="contact-link-val">github.com/dvdliu</a>
+        </div>
+
+        <div class="contact-link-row">
+          <span class="contact-link-label">LinkedIn</span>
+          <a href="https://linkedin.com/in/davdliu2003/" target="_blank" class="contact-link-val">linkedin.com/in/davdliu2003</a>
+        </div>
+
       </div>
     </section>
 
@@ -1064,6 +1322,17 @@
     document.body.classList.add('dark-mode');
     themeToggle.textContent = 'Light Mode';
   }
+
+  // Flip cards: click or Enter/Space to flip
+  document.querySelectorAll('.flip-card').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('flipped');
+      }
+    });
+  });
 </script>
 </body>
 </html>
