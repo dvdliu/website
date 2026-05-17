@@ -447,7 +447,23 @@
     cursor: default;
   }
 
+  .project-row[data-href] { cursor: pointer; }
+  .project-row[data-href]:hover { background: var(--paper-warm); }
+  .project-row[data-href]:hover .project-name { color: var(--pop-2); }
+  .project-row[data-href]:hover .project-thumb::after { opacity: 1; }
+
   .project-row:last-child { border-bottom: 1px solid var(--rule); }
+
+  .project-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.08);
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+    z-index: 1;
+  }
 
   .project-num {
     font-family: var(--mono);
@@ -545,23 +561,26 @@
   .project-link {
     font-family: var(--mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink);
+    color: var(--paper);
     text-decoration: none;
     border: 2px solid var(--ink);
     border-radius: 999px;
-    padding: 8px 16px;
-    background: var(--paper);
-    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    padding: 9px 18px;
+    background: var(--ink);
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s, color 0.15s;
     white-space: nowrap;
     align-self: start;
     margin-top: 4px;
+    position: relative;
+    z-index: 2;
   }
 
   .project-link:hover {
     background: var(--pop-1);
+    color: var(--ink);
     transform: translateY(-2px);
     box-shadow: 3px 3px 0 var(--ink);
   }
@@ -569,21 +588,22 @@
   .resume-link {
     font-family: var(--mono);
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink);
+    color: var(--paper);
     text-decoration: none;
     border: 2px solid var(--ink);
     border-radius: 999px;
-    padding: 8px 16px;
-    background: var(--paper);
-    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    padding: 9px 18px;
+    background: var(--ink);
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s, color 0.15s;
     white-space: nowrap;
   }
 
   .resume-link:hover {
     background: var(--pop-1);
+    color: var(--ink);
     transform: translateY(-2px);
     box-shadow: 3px 3px 0 var(--ink);
   }
@@ -935,9 +955,12 @@
       </p>
 
       <div class="hero-tags">
-        <span class="tag">Full-Stack Engineering</span>
+        <span class="tag">Backend Engineering</span>
+        <span class="tag">C++ / Python / Java</span>
         <span class="tag">Distributed Systems</span>
-        <span class="tag">React / C++ / Python</span>
+        <span class="tag">GCP</span>
+        <span class="tag">React</span>
+        <span class="tag">Claude Code</span>
         <span class="tag">Open to Work</span>
       </div>
     </div>
@@ -964,7 +987,7 @@
       <div class="section-label">01 — Projects</div>
         <div class="projects-list">
 
-          <div class="project-row">
+          <div class="project-row" data-href="https://github.com/kyukibug/distfs">
             <div class="project-num">000</div>
 
             <!-- Drop "images/project-1.jpg" to replace placeholder -->
@@ -1008,7 +1031,7 @@
             </a>
           </div>
 
-          <div class="project-row">
+          <div class="project-row" data-href="https://github.com/dvdliu/letterbox-intr-app">
             <div class="project-num">001</div>
 
             <!-- Drop "images/project-2.jpg" to replace placeholder -->
@@ -1049,7 +1072,7 @@
             <a href="https://github.com/dvdliu/letterbox-intr-app" target="_blank" class="project-link">View →</a>
           </div>
 
-          <div class="project-row">
+          <div class="project-row" data-href="https://github.com/dvdliu/whiteboard-collab-skribbl/tree/master">
             <div class="project-num">002</div>
 
             <!-- Drop "images/project-3.jpg" to replace placeholder -->
@@ -1087,7 +1110,7 @@
             <a href="https://github.com/dvdliu/whiteboard-collab-skribbl/tree/master" target="_blank" class="project-link">View →</a>
           </div>
 
-          <div class="project-row">
+          <div class="project-row" data-href="https://github.com/dvdliu/Operation-System-Proj-C">
             <div class="project-num">003</div>
 
             <!-- Drop "images/project-4.jpg" to replace placeholder -->
@@ -1140,17 +1163,18 @@
             I'm a software engineer with experience building full-stack applications,
             backend systems, and developer-focused tooling. My work spans frontend
             interfaces, distributed services, authentication systems, and infrastructure
-            monitoring — with a strong focus on reliability and maintainability.
+            monitoring — with a strong focus on reliability and maintainability. I work
+            mostly in C++ and Python, with Java experience on backend services.
             I also enjoy building apps and tools that I regularly use, check out <a href="#projects">my projects above</a>!
           </p>
 
           <p>
-            At <strong>Whova</strong>, I work on their registration systems and third-party integrations,
-            contributing across the stack from frontend UX to backend architecture.
-            I'm especially interested in systems programming, web infrastructure,
-            and scalable application design.
+            At <strong>Whova</strong>, I work on payment processing, registration systems, and
+            third-party integrations, contributing across the stack from frontend UX
+            to backend architecture. I'm especially interested in systems programming,
+            web infrastructure, and scalable application design.
           </p>
-
+          
           <p>
             Outside of coding, I like to rock climb, hike, practice piano/guitar, draw, and cook!
           </p>
@@ -1352,14 +1376,25 @@
     themeToggle.textContent = 'Light Mode';
   }
 
-  // Flip cards: click or Enter/Space to flip
+  // Flip cards: click or Enter/Space to flip. Stop bubbling so clickable rows don't navigate.
   document.querySelectorAll('.flip-card').forEach(card => {
-    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      card.classList.toggle('flipped');
+    });
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         card.classList.toggle('flipped');
       }
+    });
+  });
+
+  // Clickable project rows: navigate to data-href, but let inner <a> and .flip-card handle their own clicks
+  document.querySelectorAll('.project-row[data-href]').forEach(row => {
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('a, .flip-card')) return;
+      window.open(row.dataset.href, '_blank', 'noopener');
     });
   });
 </script>
