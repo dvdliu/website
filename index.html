@@ -470,7 +470,10 @@
   .project-row[data-href] { cursor: pointer; }
   .project-row[data-href]:hover { background: var(--paper-warm); }
   .project-row[data-href]:hover .project-name { color: var(--pop-2); }
-  .project-row[data-href]:hover .project-thumb::after { opacity: 1; }
+  .project-row[data-href]:hover .project-thumb::after {
+    opacity: 1;
+    background: rgba(255,255,255,0.06);
+  }
 
   .project-row:last-child { border-bottom: 1px solid var(--rule); }
 
@@ -595,6 +598,11 @@
     margin-top: 4px;
     position: relative;
     z-index: 2;
+    opacity: 0.85;
+  }
+
+  .project-row:hover .project-link {
+    opacity: 1;
   }
 
   .project-link:hover {
