@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Operating System — David Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+
+<div class="detail-topbar">
+  <a href="../index.html" class="logo-link"><span class="logo" style="font-size:20px;">David Liu</span></a>
+  <div class="detail-topbar-right">
+    <a href="../index.html#projects" class="back-link">← All Projects</a>
+    <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+  </div>
+</div>
+
+<main class="detail-main">
+
+  <div class="detail-status">Coursework</div>
+  <h1 class="detail-title">Operating System</h1>
+  <p class="detail-tagline">
+    A mock operating system in C++ with a custom thread library, virtual memory pager,
+    and networked filesystem — extended well past the original class assignment.
+  </p>
+
+  <div class="detail-tags">
+    <span class="tag">C++</span>
+    <span class="tag">OS Design</span>
+    <span class="tag">Systems</span>
+  </div>
+
+  <div class="detail-actions">
+    <a href="https://github.com/dvdliu/Operation-System-Proj-C" target="_blank" class="detail-action primary">View on GitHub →</a>
+  </div>
+
+  <div class="detail-cover">
+    <!-- Drop "images/os-cover.jpg" (wide screenshot/diagram) to replace this -->
+    <img src="../images/os.png" alt="Operating System" onerror="this.parentElement.style.display='none'" />
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Overview</div>
+    <div class="detail-body">
+      <p>
+        This project is a mock operating system built in C++, originally started as a
+        class assignment for a University of Michigan operating systems course and later
+        expanded into a larger personal systems project.
+      </p>
+      <p>
+        It implements a custom user-level thread library (scheduling, context switching,
+        synchronization primitives), a virtual memory pager that manages page tables and
+        handles page faults, and a networked file system layered on top. Building each
+        piece from scratch — rather than just reading about how they work — is what got
+        me hooked on systems programming in the first place.
+      </p>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Tech Stack</div>
+    <div class="detail-stack">
+      <span class="tag">C++</span>
+      <span class="tag">Thread Scheduling</span>
+      <span class="tag">Virtual Memory</span>
+      <span class="tag">Networked Filesystems</span>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Demos &amp; Screenshots</div>
+    <div class="detail-media-grid">
+      <div class="detail-media-item">
+        <img src="../images/os.png" alt="Operating System" onerror="this.parentElement.style.display='none'" />
+      </div>
+      <!--
+        Add more demos here — drop files in /images and add either an <img>
+        or <video controls> inside a .detail-media-item, e.g.:
+        <div class="detail-media-item"><video src="../images/os-demo.mp4" controls></video></div>
+      -->
+      <div class="detail-media-placeholder">
+        Drop a terminal walkthrough or architecture diagram here
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-nav-footer">
+    <a href="../index.html#projects" class="back-link">← Back to all projects</a>
+    <a href="https://github.com/dvdliu/Operation-System-Proj-C" target="_blank" class="detail-action secondary">GitHub →</a>
+  </div>
+
+</main>
+
+<script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Filmterest — David Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+
+<div class="detail-topbar">
+  <a href="../index.html" class="logo-link"><span class="logo" style="font-size:20px;">David Liu</span></a>
+  <div class="detail-topbar-right">
+    <a href="../index.html#projects" class="back-link">← All Projects</a>
+    <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+  </div>
+</div>
+
+<main class="detail-main">
+
+  <div class="detail-status">Learning Project</div>
+  <h1 class="detail-title">Filmterest</h1>
+  <p class="detail-tagline">
+    Platonic Tinder for movie people — a social discovery platform that matches users
+    based on film and TV taste using the Letterboxd API.
+  </p>
+
+  <div class="detail-tags">
+    <span class="tag">React</span>
+    <span class="tag">Node.js</span>
+    <span class="tag">MongoDB</span>
+    <span class="tag">Full-Stack</span>
+  </div>
+
+  <div class="detail-actions">
+    <a href="https://github.com/dvdliu/letterbox-intr-app" target="_blank" class="detail-action primary">View on GitHub →</a>
+  </div>
+
+  <div class="detail-cover">
+    <!-- Drop "images/filmterest-cover.jpg" (wide screenshot) to replace this -->
+    <img src="../images/letterbox.png" alt="Filmterest" onerror="this.parentElement.style.display='none'" />
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Overview</div>
+    <div class="detail-body">
+      <p>
+        Filmterest is a social movie discovery platform that matches users based on their
+        film and TV preferences, using the Letterboxd API and OAuth 2.0 for authentication.
+        It started out as a learning exercise to pick up React, Node, and JavaScript from
+        scratch, and grew into a full app for sharing movie reviews and discovering films
+        with friends.
+      </p>
+      <p>
+        Users connect their Letterboxd account, and the app pulls their watch history and
+        ratings to surface people with overlapping taste — think of it as a matchmaking
+        layer built on top of your film diary. Under the hood it's a full-stack app: a
+        React/Redux frontend, an Express API, and MongoDB for storing user profiles, match
+        state, and review data.
+      </p>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Tech Stack</div>
+    <div class="detail-stack">
+      <span class="tag">React</span>
+      <span class="tag">Redux</span>
+      <span class="tag">Express</span>
+      <span class="tag">MongoDB</span>
+      <span class="tag">OAuth 2.0</span>
+      <span class="tag">Letterboxd API</span>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Demos &amp; Screenshots</div>
+    <div class="detail-media-grid">
+      <div class="detail-media-item">
+        <img src="../images/letterbox.png" alt="Filmterest" onerror="this.parentElement.style.display='none'" />
+      </div>
+      <!--
+        Add more demos here — drop files in /images and add either an <img>
+        or <video controls> inside a .detail-media-item, e.g.:
+        <div class="detail-media-item"><video src="../images/filmterest-demo.mp4" controls></video></div>
+      -->
+      <div class="detail-media-placeholder">
+        Drop a walkthrough gif/video or extra screenshots here
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-nav-footer">
+    <a href="../index.html#projects" class="back-link">← Back to all projects</a>
+    <a href="https://github.com/dvdliu/letterbox-intr-app" target="_blank" class="detail-action secondary">GitHub →</a>
+  </div>
+
+</main>
+
+<script src="../script.js"></script>
+</body>
+</html>

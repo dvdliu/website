@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Doodle Room — David Liu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+
+<div class="detail-topbar">
+  <a href="../index.html" class="logo-link"><span class="logo" style="font-size:20px;">David Liu</span></a>
+  <div class="detail-topbar-right">
+    <a href="../index.html#projects" class="back-link">← All Projects</a>
+    <button id="theme-toggle" class="theme-toggle">Dark Mode</button>
+  </div>
+</div>
+
+<main class="detail-main">
+
+  <div class="detail-status">For Fun</div>
+  <h1 class="detail-title">Doodle Room</h1>
+  <p class="detail-tagline">
+    A real-time collaborative whiteboard my friends and I actually used to take notes
+    and draw in class — inspired by skribbl.io.
+  </p>
+
+  <div class="detail-tags">
+    <span class="tag">Java</span>
+    <span class="tag">JavaScript</span>
+    <span class="tag">WebSockets</span>
+    <span class="tag">Real-Time</span>
+  </div>
+
+  <div class="detail-actions">
+    <a href="https://github.com/dvdliu/whiteboard-collab-skribbl/tree/master" target="_blank" class="detail-action primary">View on GitHub →</a>
+  </div>
+
+  <div class="detail-cover">
+    <!-- Drop "images/doodleroom-cover.jpg" (wide screenshot) to replace this -->
+    <img src="../images/doodleroom.png" alt="Doodle Room" onerror="this.parentElement.style.display='none'" />
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Overview</div>
+    <div class="detail-body">
+      <p>
+        Doodle Room is a real-time collaborative whiteboard built with Java WebSockets on
+        the backend and vanilla JavaScript on the frontend. I built it to actually use with
+        friends — for taking shared notes and doodling during class — rather than as a
+        purely academic exercise.
+      </p>
+      <p>
+        It supports synchronized drawing across multiple connected clients, live cursor
+        tracking so you can see where everyone is on the canvas, and shared canvas state
+        replay so a late joiner sees everything drawn so far instead of a blank board.
+        The multi-user collaboration model is loosely inspired by
+        <a href="https://skribbl.io" target="_blank">skribbl.io</a>.
+      </p>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Tech Stack</div>
+    <div class="detail-stack">
+      <span class="tag">Java</span>
+      <span class="tag">Java WebSockets</span>
+      <span class="tag">Vanilla JavaScript</span>
+      <span class="tag">HTML5 Canvas</span>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Demos &amp; Screenshots</div>
+    <div class="detail-media-grid">
+      <div class="detail-media-item">
+        <img src="../images/doodleroom.png" alt="Doodle Room" onerror="this.parentElement.style.display='none'" />
+      </div>
+      <!--
+        Add more demos here — drop files in /images and add either an <img>
+        or <video controls> inside a .detail-media-item, e.g.:
+        <div class="detail-media-item"><video src="../images/doodleroom-demo.mp4" controls></video></div>
+      -->
+      <div class="detail-media-placeholder">
+        Drop a live drawing session gif/video here
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-nav-footer">
+    <a href="../index.html#projects" class="back-link">← Back to all projects</a>
+    <a href="https://github.com/dvdliu/whiteboard-collab-skribbl/tree/master" target="_blank" class="detail-action secondary">GitHub →</a>
+  </div>
+
+</main>
+
+<script src="../script.js"></script>
+</body>
+</html>
