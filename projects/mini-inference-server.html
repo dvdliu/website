@@ -82,7 +82,7 @@
         <code>ModelWeights.load()</code> is there if I ever want to drop in trained
         weights later.
       </p>
-      <div class="detail-diagram-placeholder">Diagram: a request's path through the queue, scheduler, and cache manager</div>
+      <img class="detail-diagram" src="../images/mini-inference-diagram.svg" alt="A request flows from the waiting queue into the scheduler, which batches it with other running sequences against the KV-cache block pool and the NumPy transformer, then streams tokens back" />
     </div>
   </div>
 

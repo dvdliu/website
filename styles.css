@@ -1038,6 +1038,16 @@ section:last-child { border-bottom: none; }
   border-radius: 14px;
 }
 
+/* A real inline diagram. Drawn with its own background/border baked in (see
+   images/*-diagram.svg), so this just gives it width and spacing rather than
+   framing it in another box. */
+.detail-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 20px 0;
+}
+
 /* An inline placeholder for a diagram or screenshot that would help explain
    a specific point in the surrounding prose, as opposed to .detail-media-grid
    which is a gallery of finished demo media at the bottom of the page. */

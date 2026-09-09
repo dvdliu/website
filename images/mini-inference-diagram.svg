@@ -1,0 +1,73 @@
+<svg viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" font-family="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif">
+  <rect x="3" y="3" width="894" height="454" rx="18" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+
+  <text x="450" y="40" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.05em" fill="#6b6b65">ONE REQUEST'S PATH THROUGH ONE ENGINE TICK</text>
+
+  <!-- Requests -->
+  <rect x="28" y="150" width="34" height="26" rx="5" fill="#f5f0e3" stroke="#111111" stroke-width="2"/>
+  <rect x="28" y="182" width="34" height="26" rx="5" fill="#f5f0e3" stroke="#111111" stroke-width="2"/>
+  <rect x="28" y="214" width="34" height="26" rx="5" fill="#f5f0e3" stroke="#111111" stroke-width="2"/>
+  <text x="45" y="260" text-anchor="middle" font-size="11" fill="#6b6b65">requests</text>
+
+  <path d="M 68 195 L 108 195" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Waiting queue -->
+  <rect x="112" y="150" width="140" height="90" rx="12" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
+  <text x="182" y="188" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">Waiting Queue</text>
+  <text x="182" y="208" text-anchor="middle" font-size="11" fill="#111111">FCFS admission</text>
+
+  <path d="M 252 195 L 292 195" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Scheduler -->
+  <rect x="296" y="130" width="220" height="130" rx="14" fill="#ffd93d" stroke="#111111" stroke-width="2.5"/>
+  <text x="406" y="163" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">Scheduler</text>
+  <text x="406" y="182" text-anchor="middle" font-size="11" fill="#111111">continuous batching</text>
+  <rect x="326" y="196" width="26" height="22" rx="4" fill="#111111"/>
+  <rect x="356" y="196" width="26" height="22" rx="4" fill="#111111"/>
+  <rect x="386" y="196" width="26" height="22" rx="4" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+  <rect x="416" y="196" width="26" height="22" rx="4" fill="#111111"/>
+  <rect x="446" y="196" width="26" height="22" rx="4" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+  <text x="406" y="238" text-anchor="middle" font-size="10.5" fill="#111111">one token per running sequence</text>
+
+  <path d="M 516 195 L 556 195" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Model -->
+  <rect x="560" y="130" width="200" height="130" rx="14" fill="#ff8a5b" stroke="#111111" stroke-width="2.5"/>
+  <text x="660" y="170" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">NumPy</text>
+  <text x="660" y="190" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">Transformer</text>
+  <text x="660" y="215" text-anchor="middle" font-size="11" fill="#111111">prefill + decode</text>
+  <text x="660" y="231" text-anchor="middle" font-size="11" fill="#111111">against the KV-cache</text>
+
+  <!-- Response -->
+  <path d="M 760 175 C 800 150, 815 90, 790 70" fill="none" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="770" y="55" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111111">tokens</text>
+  <text x="770" y="68" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111111">streamed back</text>
+
+  <!-- KV-cache block pool -->
+  <path d="M 406 260 L 406 300" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)" marker-start="url(#arrowstart)"/>
+  <rect x="296" y="304" width="220" height="110" rx="14" fill="#6dc9c1" stroke="#111111" stroke-width="2.5"/>
+  <text x="406" y="330" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">KV-Cache Blocks</text>
+  <g>
+    <rect x="316" y="342" width="24" height="24" rx="4" fill="#111111"/>
+    <rect x="344" y="342" width="24" height="24" rx="4" fill="#111111"/>
+    <rect x="372" y="342" width="24" height="24" rx="4" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+    <rect x="400" y="342" width="24" height="24" rx="4" fill="#111111"/>
+    <rect x="428" y="342" width="24" height="24" rx="4" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+    <rect x="456" y="342" width="24" height="24" rx="4" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+    <rect x="484" y="342" width="24" height="24" rx="4" fill="#111111"/>
+  </g>
+  <text x="406" y="392" text-anchor="middle" font-size="10.5" fill="#111111">grow() on decode, free() when done</text>
+
+  <text x="182" y="415" text-anchor="middle" font-size="10.5" fill="#6b6b65">waits if</text>
+  <text x="182" y="428" text-anchor="middle" font-size="10.5" fill="#6b6b65">no free blocks</text>
+  <path d="M 296 380 C 260 380, 210 380, 195 400" fill="none" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#111111"/>
+    </marker>
+    <marker id="arrowstart" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#111111"/>
+    </marker>
+  </defs>
+</svg>
