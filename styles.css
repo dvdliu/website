@@ -511,12 +511,12 @@ section:last-child { border-bottom: none; }
   transform: scale(1.05);
 }
 
-.project-card-thumb.t1 { background: linear-gradient(135deg, var(--pop-3), var(--pop-1)); }
+.project-card-thumb.t1 { background: var(--pop-3); }
 .project-card-thumb.t2 { background: linear-gradient(135deg, var(--pop-2), #ff5ea8); }
 .project-card-thumb.t3 { background: linear-gradient(135deg, var(--pop-1), var(--pop-2)); }
-.project-card-thumb.t4 { background: linear-gradient(135deg, #7b8cff, var(--pop-3)); }
-.project-card-thumb.t5 { background: linear-gradient(135deg, var(--pop-2), #7b8cff); }
-.project-card-thumb.t6 { background: linear-gradient(135deg, var(--pop-3), var(--pop-2)); }
+.project-card-thumb.t4 { background: #7b8cff; }
+.project-card-thumb.t5 { background: var(--pop-2); }
+.project-card-thumb.t6 { background: var(--pop-1); }
 
 .project-card-status {
   position: absolute;
