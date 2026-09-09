@@ -75,8 +75,6 @@ aside {
 }
 
 .theme-toggle {
-  margin-top: 32px;
-
   background: transparent;
   border: 1.5px solid var(--rule);
   border-radius: 999px;
@@ -103,6 +101,12 @@ aside {
   border-color: var(--ink);
   color: var(--ink);
   transform: translateY(-1px);
+}
+
+/* Only the sidebar needs top spacing above the button (it sits below nav in
+   a column); the detail-page topbar aligns it inline via flexbox instead. */
+aside .theme-toggle {
+  margin-top: 32px;
 }
 
 .logo {
@@ -357,7 +361,7 @@ section:last-child { border-bottom: none; }
 /* ─── ABOUT ─── */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 48px;
   align-items: start;
 }
@@ -412,7 +416,6 @@ section:last-child { border-bottom: none; }
   border: 2px solid var(--ink);
   box-shadow: 6px 6px 0 var(--ink);
   align-self: start;
-  justify-self: end;
 }
 
 .about-photo img {
@@ -1066,7 +1069,7 @@ section:last-child { border-bottom: none; }
   .projects-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
   .exp-item { grid-template-columns: 1fr; gap: 8px; }
   .skills-grid { grid-template-columns: 1fr 1fr; }
-  .theme-toggle {
+  aside .theme-toggle {
     margin-top: 0;
     margin-left: auto;
   }
