@@ -516,6 +516,7 @@ section:last-child { border-bottom: none; }
 .project-card-thumb.t3 { background: linear-gradient(135deg, var(--pop-1), var(--pop-2)); }
 .project-card-thumb.t4 { background: linear-gradient(135deg, #7b8cff, var(--pop-3)); }
 .project-card-thumb.t5 { background: linear-gradient(135deg, var(--pop-2), #7b8cff); }
+.project-card-thumb.t6 { background: linear-gradient(135deg, var(--pop-3), var(--pop-2)); }
 
 .project-card-status {
   position: absolute;

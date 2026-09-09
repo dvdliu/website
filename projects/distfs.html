@@ -25,7 +25,8 @@
   <h1 class="detail-title">Distributed Filesystem</h1>
   <p class="detail-tagline">
     A distributed file storage layer with replication, fault tolerance, and consistent
-    metadata management — built to learn how real storage systems handle failure.
+    metadata management. I'm building it because I want to really understand how real
+    storage systems handle failure, and not just read about it.
   </p>
 
   <div class="detail-tags">
@@ -48,22 +49,55 @@
     <div class="detail-section-label">Overview</div>
     <div class="detail-body">
       <p>
-        DistFS is an ongoing systems project focused on building a distributed file storage
-        layer from the ground up. The goal is a filesystem that survives node failures
-        without losing data or availability — something I'd eventually trust to store my
-        own files.
+        This one comes straight out of my distributed systems class at Michigan. I got
+        genuinely hooked on the idea that so much of systems design isn't about writing
+        clever code, it's about deciding what you're willing to give up. You trade
+        consistency for availability, or simplicity for performance, and then you have to
+        live with that trade-off correctly under failure. Reading about that in a
+        textbook only goes so far, so DistFS is me actually building a storage layer that
+        has to make those calls for real. It chunks files and spreads them across nodes,
+        replicates them so a single node failure doesn't lose data, and keeps metadata
+        consistent about which node holds which chunk even as the cluster changes shape
+        underneath it.
       </p>
       <p>
-        The core of the project is a set of storage primitives: chunked file storage across
-        multiple nodes, replication so no single node failure loses data, node coordination
-        for tracking which replicas hold which chunks, and failure detection/recovery to
-        re-replicate data when a node drops out. Metadata (file → chunk mappings, replica
-        locations) is kept consistent across the cluster even as nodes join, leave, or fail.
+        The honest goal is a filesystem I'd eventually trust to store my own files on my
+        own hardware. That's a good forcing function, because "good enough for a demo"
+        and "good enough that I'd actually rely on it" are very different bars.
+      </p>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Design &amp; Implementation</div>
+    <div class="detail-body">
+      <p>
+        <strong>The question I keep coming back to.</strong> Every design decision in this
+        project eventually reduces to the same tension. How much coordination am I
+        willing to pay for on the write path, so a read never returns stale or missing
+        data after a node drops out? Go's goroutines and channels make the concurrent
+        part of that manageable to reason about, since there are many nodes and many
+        in-flight requests, but they don't make the actual trade-off decision for you.
+        That's still the part I spend the most time thinking through before I write any
+        code.
       </p>
       <p>
-        This is very much a learning-by-building project — it's my way of getting hands-on
-        with the distributed systems concepts (consensus, replication, failure detection)
-        that I first got interested in through coursework at Michigan.
+        <strong>Why chunking and replication came first.</strong> I deliberately started
+        with the storage primitives before touching anything like consensus. I split
+        files into chunks, replicated them across nodes, and tracked placement in
+        metadata first, because I wanted the foundational data path to be solid before I
+        built coordination logic on top of it. It's tempting to reach for the
+        "interesting" distributed systems problem first. Building the boring parts
+        correctly first is the choice I'm more confident in a year from now.
+      </p>
+      <p>
+        <strong>What I'm still working through.</strong> Failure detection and
+        re-replication are the pieces I'm actively building out. The real question is how
+        aggressively to react to a node going quiet, since a slow node and a dead node
+        look identical for a little while, without triggering a storm of unnecessary
+        re-replication traffic every time something hiccups. It's the same class of
+        problem as a distributed systems paper's "failure detector." It just feels a lot
+        more concrete when it's your own cluster timing out.
       </p>
     </div>
   </div>
@@ -85,9 +119,9 @@
         <img src="../images/distfs.jpg" alt="Distributed Filesystem" onerror="this.parentElement.style.display='none'" />
       </div>
       <!--
-        Add more demos as this project progresses — drop files in /images and
+        Add more demos as this project progresses. Drop files in /images and
         add either an <img> or <video controls> inside a .detail-media-item,
-        e.g.:
+        like this
         <div class="detail-media-item"><video src="../images/distfs-demo.mp4" controls></video></div>
       -->
       <div class="detail-media-placeholder">

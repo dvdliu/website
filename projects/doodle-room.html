@@ -24,8 +24,10 @@
   <div class="detail-status">For Fun</div>
   <h1 class="detail-title">Doodle Room</h1>
   <p class="detail-tagline">
-    A real-time collaborative whiteboard my friends and I actually used to take notes
-    and draw in class — inspired by skribbl.io.
+    A real-time collaborative whiteboard my friends and I actually used to take notes and
+    draw in class — it started as just that, and has since grown into a full skribbl.io-style
+    Pictionary game too, which is what my <a href="doodle-ai-player.html">AI player</a> project
+    plays against.
   </p>
 
   <div class="detail-tags">
@@ -48,17 +50,64 @@
     <div class="detail-section-label">Overview</div>
     <div class="detail-body">
       <p>
-        Doodle Room is a real-time collaborative whiteboard built with Java WebSockets on
-        the backend and vanilla JavaScript on the frontend. I built it to actually use with
-        friends — for taking shared notes and doodling during class — rather than as a
-        purely academic exercise.
+        Doodle Room started as something small and practical: a whiteboard my friends and I
+        could all draw on at once, mostly for taking shared notes and doodling during class
+        instead of passing a notebook around. I built the backend in Java on top of
+        <code>Java-WebSocket</code> and kept the frontend as plain HTML5 canvas and vanilla
+        JavaScript — no framework, no build step, just something I could open in a tab and
+        use immediately.
       </p>
       <p>
-        It supports synchronized drawing across multiple connected clients, live cursor
-        tracking so you can see where everyone is on the canvas, and shared canvas state
-        replay so a late joiner sees everything drawn so far instead of a blank board.
-        The multi-user collaboration model is loosely inspired by
-        <a href="https://skribbl.io" target="_blank">skribbl.io</a>.
+        Once the free-draw part actually worked and people were using it, I kept wanting to
+        add "just one more thing" — cursor tracking, then a skribbl.io-style guessing game on
+        top of the same drawing primitives. That game mode ended up being the bigger half of
+        the project: a full turn-based Pictionary implementation with room codes, scoring,
+        and hint timing, running as a second, independent server so I never had to touch the
+        free-draw mode to build it.
+      </p>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Design &amp; Implementation</div>
+    <div class="detail-body">
+      <p>
+        <strong>Two servers, on purpose.</strong> Free Draw and Pictionary are genuinely
+        different problems — one just relays draw events to everyone in the room, the other
+        needs a real state machine with authority over turns, timers, and scoring. Rather
+        than cram both into one increasingly tangled server, I split them into
+        <code>WhiteboardServer</code> (port 8080) and <code>PictionaryServer</code> (port
+        8081), sharing only the same Maven build. It meant I could build and break the game
+        mode freely without any risk of regressing the free-draw mode people were already
+        using.
+      </p>
+      <p>
+        <strong>The game is a real state machine.</strong> Each room moves through
+        <code>LOBBY → PICKING_WORD → DRAWING → TURN_END</code> and back around for the next
+        turn, then <code>GAME_OVER</code> once the rounds run out — and every scheduled
+        callback (the per-second timer tick, the letter reveals, the auto-pick-a-word
+        timeout) captures a "turn token" and re-checks it before acting, so a stray timer
+        firing after a turn has already ended can't corrupt the next one. That defensive
+        detail came directly out of thinking through what happens when a drawer disconnects
+        mid-turn — the kind of edge case that's easy to skip until you actually trace through
+        what a late timer callback would do.
+      </p>
+      <p>
+        <strong>Guess evaluation, not just string matching.</strong> An exact match is the
+        easy case. What I actually spent time on was the near-miss: a guess exactly one
+        Levenshtein edit away from the answer gets flagged as "so close!" instead of silently
+        failing, which matters a lot more for how the game actually feels than the happy path
+        does. Scoring follows the same instinct — earlier and faster correct guesses are
+        worth more (<code>max(20, 100 − 20×priorGuessers) + min(30, secondsLeft/2)</code>),
+        and the drawer gets a flat bonus per correct guesser, so drawing well is worth
+        something too, not just guessing well.
+      </p>
+      <p>
+        <strong>Letting late joiners catch up.</strong> The server keeps a bounded history of
+        recent stroke events and replays it to anyone who connects mid-session, so joining a
+        room in progress shows the actual canvas instead of a blank one. It's a small thing,
+        but it's the difference between the whiteboard feeling like a shared document and
+        feeling like you missed something.
       </p>
     </div>
   </div>
@@ -67,7 +116,9 @@
     <div class="detail-section-label">Tech Stack</div>
     <div class="detail-stack">
       <span class="tag">Java</span>
-      <span class="tag">Java WebSockets</span>
+      <span class="tag">Java-WebSocket</span>
+      <span class="tag">Gson</span>
+      <span class="tag">Maven</span>
       <span class="tag">Vanilla JavaScript</span>
       <span class="tag">HTML5 Canvas</span>
     </div>
