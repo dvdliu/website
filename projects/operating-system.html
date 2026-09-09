@@ -67,35 +67,47 @@
   </div>
 
   <div class="detail-section">
-    <div class="detail-section-label">Design &amp; Implementation</div>
+    <div class="detail-section-label">Implementation</div>
     <div class="detail-body">
       <p>
-        <strong>The thread library taught me that the hard part isn't scheduling.</strong>
-        I went in assuming the interesting problem would be picking a scheduling policy.
-        It turned out the part that actually demanded care was context switching and
-        synchronization. I had to get a thread's saved state exactly right so it resumes
-        as if nothing happened, and make sure two threads touching shared state can't
-        interleave in a way that corrupts it. Those are the bugs that don't show up every
-        run, and they taught me to be a lot more paranoid about concurrent code than any
-        lecture did.
+        The project has three layers built on top of each other. A user-level thread
+        library handles its own scheduling, context switching, and synchronization
+        primitives. A virtual memory pager underneath it manages page tables and page
+        faults. A networked filesystem sits on top of both. Each layer depends on the
+        correctness of the one below it, which was very much the point of building them
+        in that order.
+      </p>
+      <div class="detail-diagram-placeholder">Diagram: the thread library, pager, and filesystem layered on top of each other</div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Challenges &amp; Lessons Learned</div>
+    <div class="detail-body">
+      <p>
+        I went into the thread library assuming the interesting problem would be
+        picking a scheduling policy. It turned out the part that actually demanded care
+        was context switching and synchronization. I had to get a thread's saved state
+        exactly right so it resumes as if nothing happened, and make sure two threads
+        touching shared state can't interleave in a way that corrupts it. Those are the
+        bugs that don't show up every run, and they taught me to be a lot more paranoid
+        about concurrent code than any lecture did.
       </p>
       <p>
-        <strong>Virtual memory made "abstraction" feel real.</strong> Implementing the
-        pager, managing page tables and handling page faults, is where the idea of
+        Implementing the pager, managing page tables and handling page faults, is where
         virtual memory stopped being a diagram in a textbook. It became something I had
         to get exactly right or watch the whole system behave incorrectly in confusing
-        ways. There's a particular kind of understanding that only comes from debugging a
-        page fault handler that isn't doing what you expect.
+        ways. There's a particular kind of understanding that only comes from debugging
+        a page fault handler that isn't doing what you expect.
       </p>
       <p>
-        <strong>Why I layered the filesystem on top instead of building it standalone.</strong>
-        By the time I got to the networked filesystem piece, I already had a thread
-        library and a memory system to build on. That meant I got to feel, directly, how
-        much a higher layer depends on the correctness of the layers underneath it. A
-        subtle bug in the pager doesn't stay contained to the pager. It shows up as a
-        weird, hard to explain failure two layers up. That's the lesson from this project
-        I've carried into everything since. Get the foundation right, because you will
-        absolutely pay for it later if you don't.
+        By the time I got to the networked filesystem, I already had a thread library
+        and a memory system to build on, which meant I got to feel directly how much a
+        higher layer depends on the correctness of the layers underneath it. A subtle
+        bug in the pager doesn't stay contained to the pager. It shows up as a weird,
+        hard to explain failure two layers up. That's the lesson from this project I've
+        carried into everything since. Get the foundation right, because you will pay
+        for it later if you don't.
       </p>
     </div>
   </div>

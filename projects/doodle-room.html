@@ -69,45 +69,50 @@
   </div>
 
   <div class="detail-section">
-    <div class="detail-section-label">Design &amp; Implementation</div>
+    <div class="detail-section-label">Implementation</div>
     <div class="detail-body">
       <p>
-        <strong>Two servers, on purpose.</strong> Free Draw and Pictionary are genuinely
-        different problems. One just relays draw events to everyone in the room, and the
-        other needs a real state machine with authority over turns, timers, and scoring.
-        Rather than cram both into one increasingly tangled server, I split them into
-        <code>WhiteboardServer</code> on port 8080 and <code>PictionaryServer</code> on
-        port 8081, sharing only the same Maven build. That meant I could build and break
-        the game mode freely without any risk of regressing the free-draw mode people
-        were already using.
+        The backend is two independent Java WebSocket servers sharing one Maven build.
+        <code>WhiteboardServer</code> runs on port 8080 for free draw, and
+        <code>PictionaryServer</code> runs on port 8081 for the game mode. I split them
+        apart early since free draw just relays draw events to everyone in the room,
+        while Pictionary needs real authority over turns, timers, and scoring, and I
+        didn't want those two different jobs tangled into one server. The frontend for
+        both is plain HTML5 canvas and vanilla JavaScript, with no framework and no
+        build step. Each Pictionary room runs its own turn state machine, cycling
+        through <code>LOBBY → PICKING_WORD → DRAWING → TURN_END</code> until the rounds
+        run out.
+      </p>
+      <div class="detail-diagram-placeholder">Diagram: the two-server split and the Pictionary turn state machine</div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Challenges &amp; Lessons Learned</div>
+    <div class="detail-body">
+      <p>
+        The trickiest part of the state machine was guarding against stale timers.
+        Every scheduled callback, whether it's the per-second timer tick, the letter
+        reveals, or the auto-pick-a-word timeout, captures a "turn token" and re-checks
+        it before acting, so a callback that fires after a turn has already ended can't
+        corrupt the next one. That came directly out of tracing through what happens
+        when a drawer disconnects mid-turn, an edge case that's easy to skip until you
+        actually think it through.
       </p>
       <p>
-        <strong>The game is a real state machine.</strong> Each room moves through
-        <code>LOBBY → PICKING_WORD → DRAWING → TURN_END</code> and back around for the
-        next turn, then <code>GAME_OVER</code> once the rounds run out. Every scheduled
-        callback, whether it's the per-second timer tick, the letter reveals, or the
-        auto-pick-a-word timeout, captures a "turn token" and re-checks it before acting,
-        so a stray timer firing after a turn has already ended can't corrupt the next
-        one. That defensive detail came directly out of thinking through what happens
-        when a drawer disconnects mid-turn, the kind of edge case that's easy to skip
-        until you actually trace through what a late timer callback would do.
-      </p>
-      <p>
-        <strong>Guess evaluation, not just string matching.</strong> An exact match is
-        the easy case. What I actually spent time on was the near-miss. A guess exactly
-        one Levenshtein edit away from the answer gets flagged as "so close!" instead of
-        silently failing, which matters a lot more for how the game actually feels than
-        the happy path does. Scoring follows the same instinct, since earlier and faster
-        correct guesses are worth more
+        Guess evaluation ended up mattering more than I expected. An exact match is the
+        easy case, but a guess exactly one Levenshtein edit away from the answer gets
+        flagged as "so close!" instead of silently failing, and that changes how the
+        game feels a lot more than the happy path does. Scoring follows the same idea.
+        Earlier and faster correct guesses are worth more
         (<code>max(20, 100 − 20×priorGuessers) + min(30, secondsLeft/2)</code>), and the
-        drawer gets a flat bonus per correct guesser, so drawing well is worth something
-        too, not just guessing well.
+        drawer gets a flat bonus per correct guesser, so drawing well is worth
+        something too.
       </p>
       <p>
-        <strong>Letting late joiners catch up.</strong> The server keeps a bounded
-        history of recent stroke events and replays it to anyone who connects
-        mid-session, so joining a room in progress shows the actual canvas instead of a
-        blank one. It's a small thing, but it's the difference between the whiteboard
+        I also keep a bounded history of recent stroke events and replay it to anyone
+        who joins mid-session, so a late joiner sees the actual canvas instead of a
+        blank one. It's a small detail, but it's the difference between the whiteboard
         feeling like a shared document and feeling like you missed something.
       </p>
     </div>

@@ -69,75 +69,73 @@
   </div>
 
   <div class="detail-section">
-    <div class="detail-section-label">Design &amp; Implementation</div>
+    <div class="detail-section-label">Implementation</div>
     <div class="detail-body">
       <p>
-        <strong>Why I hand-wrote the transformer instead of loading a real one.</strong>
-        This was the choice I went back and forth on the most. Using a pretrained model
-        would've made the demo output readable, but the whole point of the project was
-        the serving layer, and I didn't want the interesting KV-cache logic to live
-        inside someone else's library where I couldn't point at it. Writing the forward
-        pass myself, the embeddings, the causal self-attention, the cache read and write
-        path, meant every part the scheduler touches is code I actually understand line
-        by line. The trade-off is honest. Weights are randomly initialized by default, so
-        the output is gibberish. I decided that was fine, since the thing I was trying to
-        prove was throughput and correctness, not writing quality, and
-        <code>ModelWeights.load()</code> is right there if I ever want to drop in trained
+        The engine has a request queue with admission control, a scheduler that packs
+        many in-flight generations into one batched step, and a KV-cache block
+        manager, all running on top of a transformer I wrote myself in plain NumPy
+        rather than a pretrained model. I wanted the KV-cache logic to be code I
+        actually understand line by line instead of something living inside someone
+        else's library. Weights are randomly initialized by default, since the point
+        of the project is serving mechanics and throughput, not text quality, and
+        <code>ModelWeights.load()</code> is there if I ever want to drop in trained
         weights later.
       </p>
+      <div class="detail-diagram-placeholder">Diagram: a request's path through the queue, scheduler, and cache manager</div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Challenges &amp; Lessons Learned</div>
+    <div class="detail-body">
       <p>
-        <strong>The test that mattered most.</strong> A KV-cache is only worth anything
-        if decoding with it gives you the exact same result as recomputing the whole
-        sequence from scratch. So the first real test I wrote was just that. I ran a
-        prompt through <code>prefill()</code>, separately decoded the last token using a
-        cache from the first N-1, and asserted the logits matched. Extending that to a
-        ragged batch, two sequences of different lengths decoded together in one call, is
-        what actually caught bugs in my padding and masking logic. That test is doing
-        more work than any other one in the suite.
+        A KV-cache is only worth anything if decoding with it gives you the exact same
+        result as recomputing the whole sequence from scratch, so the first real test
+        I wrote was just that. I ran a prompt through <code>prefill()</code>,
+        separately decoded the last token using a cache from the first N-1, and
+        asserted the logits matched. Extending that to a ragged batch, two sequences
+        of different lengths decoded together in one call, is what actually caught
+        bugs in my padding and masking logic.
       </p>
       <p>
-        <strong>Ragged batches, not uniform ones.</strong> The hard part of continuous
-        batching is that the sequences sharing a decode step almost never have the same
-        length. Someone's three tokens in, and someone else just joined. I pad each
-        sequence's cached K and V up to the batch's current max length and mask out the
-        padding in the attention scores, so it's still one batched matmul instead of a
-        Python loop per sequence. It's the same technique real batched-decode
-        implementations use before something like PagedAttention avoids the padding
-        waste entirely, and it's a reasonable middle ground for a NumPy and CPU project.
+        The hard part of continuous batching is that sequences sharing a decode step
+        almost never have the same length, someone's three tokens in while someone
+        else just joined. I pad each sequence's cached K and V up to the batch's
+        current max length and mask out the padding in the attention scores, so it's
+        still one batched matmul instead of a loop per sequence, the same technique
+        real batched-decode implementations use before something like PagedAttention
+        avoids the padding waste entirely.
       </p>
       <p>
-        <strong>A real scheduling bug I found by testing, not by accident.</strong> My
-        first version of <code>step()</code> admitted waiting requests and then
+        My first version of <code>step()</code> admitted waiting requests and then
         immediately ran a decode step on the whole batch, including the ones that had
-        just joined. That meant a brand-new request got two tokens in its first tick, one
-        from prefill and one from the decode step right after, while everyone else got
-        one. That quietly breaks the "every sequence advances by one token per tick"
-        guarantee the whole design rests on. My scheduler tests caught it immediately by
-        asserting exact token counts after a single <code>step()</code>. The fix was to
-        decode only the sequences that were already running, and let newly admitted ones
-        join the batch starting next tick.
+        just joined. That meant a brand new request got two tokens in its first tick
+        while everyone else got one, which quietly broke the guarantee the whole
+        design rests on, that every sequence advances by exactly one token per tick.
+        My scheduler tests caught it immediately by asserting exact token counts after
+        a single <code>step()</code>, and the fix was to decode only the sequences
+        that were already running.
       </p>
       <p>
-        <strong>Sync core, async edges.</strong> <code>step()</code> is a plain
-        synchronous method on purpose, since it's just NumPy matmuls with nothing to
-        await. But that choice meant I couldn't use <code>asyncio.Queue</code> for
-        streaming tokens back to a client the way I first tried. On Python 3.9 it binds
-        to whatever event loop is running the moment it's constructed, and
-        <code>submit()</code> has no guarantee one exists yet. I ran into that as a very
-        confusing test failure before I understood what was happening. The fix ended up
-        simpler than the original design. <code>RequestHandle</code> just polls the
-        request's growing token list instead, so nothing about the producer side has to
-        know or care about asyncio at all.
+        <code>step()</code> is a plain synchronous method on purpose, since it's just
+        NumPy matmuls with nothing to await, but that meant I couldn't use
+        <code>asyncio.Queue</code> for streaming tokens back to a client the way I
+        first tried. On Python 3.9 it binds to whatever event loop is running the
+        moment it's constructed, and <code>submit()</code> has no guarantee one exists
+        yet. I ran into that as a very confusing test failure before I understood what
+        was happening. The fix ended up simpler than the original design,
+        <code>RequestHandle</code> just polls the request's growing token list
+        instead.
       </p>
       <p>
-        <strong>Proving it actually helps.</strong> None of this matters if batching
-        doesn't measurably beat serving requests one at a time, so <code>bench.py</code>
-        runs the exact same model and weights both ways. On my machine, 24 concurrent
-        requests generating 40 tokens each finish about 4x faster batched than
-        sequential, and 64 requests at 50 tokens each gets to roughly 5x. The peak batch
-        size the benchmark reports is capped below the request count when the cache pool
-        is smaller than demand, which is the admission control actually doing its job,
-        not just a number I'm hoping is true.
+        None of this matters if batching doesn't measurably beat serving requests one
+        at a time, so <code>bench.py</code> runs the exact same model and weights both
+        ways. On my machine, 24 concurrent requests generating 40 tokens each finish
+        about 4x faster batched than sequential, and 64 requests at 50 tokens each
+        gets to roughly 5x. The peak batch size the benchmark reports is capped below
+        the request count when the cache pool is smaller than demand, which is the
+        admission control actually doing its job.
       </p>
     </div>
   </div>

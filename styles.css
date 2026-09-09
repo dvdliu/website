@@ -1038,6 +1038,26 @@ section:last-child { border-bottom: none; }
   border-radius: 14px;
 }
 
+/* An inline placeholder for a diagram or screenshot that would help explain
+   a specific point in the surrounding prose, as opposed to .detail-media-grid
+   which is a gallery of finished demo media at the bottom of the page. */
+.detail-diagram-placeholder {
+  margin: 20px 0;
+  padding: 28px 20px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border: 2px dashed var(--rule);
+  border-radius: 14px;
+}
+
 .detail-nav-footer {
   display: flex;
   justify-content: space-between;

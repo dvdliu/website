@@ -69,35 +69,40 @@
   </div>
 
   <div class="detail-section">
-    <div class="detail-section-label">Design &amp; Implementation</div>
+    <div class="detail-section-label">Implementation</div>
     <div class="detail-body">
       <p>
-        <strong>The question I keep coming back to.</strong> Every design decision in this
-        project eventually reduces to the same tension. How much coordination am I
-        willing to pay for on the write path, so a read never returns stale or missing
-        data after a node drops out? Go's goroutines and channels make the concurrent
-        part of that manageable to reason about, since there are many nodes and many
-        in-flight requests, but they don't make the actual trade-off decision for you.
-        That's still the part I spend the most time thinking through before I write any
-        code.
+        DistFS is built around a set of storage primitives. Files are chunked and
+        spread across nodes, replicated so a single node failure doesn't lose data, and
+        tracked in metadata that records which node holds which chunk. I deliberately
+        started with these before touching anything like consensus, because I wanted
+        the foundational data path to be solid before building coordination logic on
+        top of it.
+      </p>
+      <div class="detail-diagram-placeholder">Diagram: chunk replication and metadata placement across nodes</div>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Challenges &amp; Lessons Learned</div>
+    <div class="detail-body">
+      <p>
+        Every design decision in this project eventually reduces to the same tension.
+        How much coordination am I willing to pay for on the write path, so a read
+        never returns stale or missing data after a node drops out? Go's goroutines and
+        channels make the concurrent part of that manageable to reason about, since
+        there are many nodes and many in-flight requests, but they don't make the
+        actual trade-off decision for you. That's still the part I spend the most time
+        thinking through before I write any code.
       </p>
       <p>
-        <strong>Why chunking and replication came first.</strong> I deliberately started
-        with the storage primitives before touching anything like consensus. I split
-        files into chunks, replicated them across nodes, and tracked placement in
-        metadata first, because I wanted the foundational data path to be solid before I
-        built coordination logic on top of it. It's tempting to reach for the
-        "interesting" distributed systems problem first. Building the boring parts
-        correctly first is the choice I'm more confident in a year from now.
-      </p>
-      <p>
-        <strong>What I'm still working through.</strong> Failure detection and
-        re-replication are the pieces I'm actively building out. The real question is how
-        aggressively to react to a node going quiet, since a slow node and a dead node
-        look identical for a little while, without triggering a storm of unnecessary
-        re-replication traffic every time something hiccups. It's the same class of
-        problem as a distributed systems paper's "failure detector." It just feels a lot
-        more concrete when it's your own cluster timing out.
+        Failure detection and re-replication are the pieces I'm actively working
+        through right now. The real question is how aggressively to react to a node
+        going quiet, since a slow node and a dead node look identical for a little
+        while, without triggering a storm of unnecessary re-replication traffic every
+        time something hiccups. It's the same class of problem as a distributed
+        systems paper's "failure detector." It just feels a lot more concrete when
+        it's your own cluster timing out.
       </p>
     </div>
   </div>
