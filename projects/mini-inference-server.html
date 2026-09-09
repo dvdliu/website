@@ -41,9 +41,11 @@
     <a href="https://github.com/dvdliu/mini-inference-server" target="_blank" class="detail-action primary">View on GitHub →</a>
   </div>
 
-  <div class="detail-cover">
-    <img src="../images/mini-inference-server.png" alt="mini-inference-server" onerror="this.parentElement.style.display='none'" />
-  </div>
+<!--
+  No cover image for now. Add one back (or a <video>) inside a .detail-cover
+  div here once there's a real demo to show, see doodle-room.html for the
+  pattern.
+-->
 
   <div class="detail-section">
     <div class="detail-section-label">Overview</div>
@@ -107,6 +109,7 @@
         real batched-decode implementations use before something like PagedAttention
         avoids the padding waste entirely.
       </p>
+      <img class="detail-diagram" src="../images/mini-inference-ragged-batch-diagram.svg" alt="Two sequences of different lengths padded to the batch's shared max length, with the padding positions masked out so they get negative infinity in the attention scores and zero weight after softmax" />
       <p>
         My first version of <code>step()</code> admitted waiting requests and then
         immediately ran a decode step on the whole batch, including the ones that had
@@ -147,25 +150,6 @@
       <span class="tag">NumPy</span>
       <span class="tag">aiohttp</span>
       <span class="tag">pytest</span>
-    </div>
-  </div>
-
-  <div class="detail-section">
-    <div class="detail-section-label">Demos &amp; Screenshots</div>
-    <div class="detail-media-grid">
-      <div class="detail-media-item">
-        <img src="../images/mini-inference-server.png" alt="mini-inference-server" onerror="this.parentElement.style.display='none'" />
-      </div>
-      <!--
-        Add a real terminal recording of the benchmark output, or a screen
-        capture of /stats while a batch is running. Drop files in /images
-        and add either an <img> or <video controls> inside a
-        .detail-media-item, like this
-        <div class="detail-media-item"><video src="../images/mini-inference-server-demo.mp4" controls></video></div>
-      -->
-      <div class="detail-media-placeholder">
-        A recording of the benchmark output and the live /stats endpoint is coming
-      </div>
     </div>
   </div>
 

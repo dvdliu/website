@@ -40,10 +40,11 @@
     <a href="https://github.com/kyukibug/distfs" target="_blank" class="detail-action primary">View on GitHub →</a>
   </div>
 
-  <div class="detail-cover">
-    <!-- Drop "images/distfs-cover.jpg" (wide screenshot/diagram) to replace this -->
-    <img src="../images/distfs.jpg" alt="Distributed Filesystem" onerror="this.parentElement.style.display='none'" />
-  </div>
+<!--
+  No cover image for now. Add one back (or a <video>) inside a .detail-cover
+  div here once there's a real demo to show, see doodle-room.html for the
+  pattern.
+-->
 
   <div class="detail-section">
     <div class="detail-section-label">Overview</div>
@@ -104,6 +105,7 @@
         systems paper's "failure detector." It just feels a lot more concrete when
         it's your own cluster timing out.
       </p>
+      <img class="detail-diagram" src="../images/distfs-failure-diagram.svg" alt="A three-step flow: heartbeats arriving normally, the node going quiet where a slow and a dead node look identical, then a timeout passing and chunks getting re-replicated to a healthy node" />
     </div>
   </div>
 
@@ -114,24 +116,6 @@
       <span class="tag">gRPC</span>
       <span class="tag">TCP/Networking</span>
       <span class="tag">Consensus &amp; Replication</span>
-    </div>
-  </div>
-
-  <div class="detail-section">
-    <div class="detail-section-label">Demos &amp; Screenshots</div>
-    <div class="detail-media-grid">
-      <div class="detail-media-item">
-        <img src="../images/distfs.jpg" alt="Distributed Filesystem" onerror="this.parentElement.style.display='none'" />
-      </div>
-      <!--
-        Add more demos as this project progresses. Drop files in /images and
-        add either an <img> or <video controls> inside a .detail-media-item,
-        like this
-        <div class="detail-media-item"><video src="../images/distfs-demo.mp4" controls></video></div>
-      -->
-      <div class="detail-media-placeholder">
-        More demos coming as this project progresses
-      </div>
     </div>
   </div>
 

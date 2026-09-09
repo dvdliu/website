@@ -39,10 +39,11 @@
     <a href="https://github.com/dvdliu/Operation-System-Proj-C" target="_blank" class="detail-action primary">View on GitHub →</a>
   </div>
 
-  <div class="detail-cover">
-    <!-- Drop "images/os-cover.jpg" (wide screenshot/diagram) to replace this -->
-    <img src="../images/os.png" alt="Operating System" onerror="this.parentElement.style.display='none'" />
-  </div>
+<!--
+  No cover image for now. Add one back (or a <video>) inside a .detail-cover
+  div here once there's a real demo to show, see doodle-room.html for the
+  pattern.
+-->
 
   <div class="detail-section">
     <div class="detail-section-label">Overview</div>
@@ -100,6 +101,7 @@
         ways. There's a particular kind of understanding that only comes from debugging
         a page fault handler that isn't doing what you expect.
       </p>
+      <img class="detail-diagram" src="../images/os-pagefault-diagram.svg" alt="Four steps: the CPU touches a virtual address, the page table lookup misses, the pager traps in and loads the page while updating the page table, and the instruction resumes as if nothing had happened" />
       <p>
         By the time I got to the networked filesystem, I already had a thread library
         and a memory system to build on, which meant I got to feel directly how much a
@@ -119,23 +121,6 @@
       <span class="tag">Thread Scheduling</span>
       <span class="tag">Virtual Memory</span>
       <span class="tag">Networked Filesystems</span>
-    </div>
-  </div>
-
-  <div class="detail-section">
-    <div class="detail-section-label">Demos &amp; Screenshots</div>
-    <div class="detail-media-grid">
-      <div class="detail-media-item">
-        <img src="../images/os.png" alt="Operating System" onerror="this.parentElement.style.display='none'" />
-      </div>
-      <!--
-        Add more demos here. Drop files in /images and add either an <img>
-        or <video controls> inside a .detail-media-item, like this
-        <div class="detail-media-item"><video src="../images/os-demo.mp4" controls></video></div>
-      -->
-      <div class="detail-media-placeholder">
-        Drop a terminal walkthrough or architecture diagram here
-      </div>
     </div>
   </div>
 

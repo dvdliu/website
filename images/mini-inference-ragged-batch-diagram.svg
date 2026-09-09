@@ -1,0 +1,47 @@
+<svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" font-family="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif">
+  <rect x="3" y="3" width="894" height="314" rx="18" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+
+  <text x="470" y="38" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.05em" fill="#6b6b65">PADDING A RAGGED BATCH TO ONE SHARED MATMUL</text>
+
+  <!-- brace over the columns -->
+  <path d="M 270 68 C 270 56, 280 56, 290 56 L 690 56 C 700 56, 710 56, 710 68" fill="none" stroke="#6b6b65" stroke-width="1.5"/>
+  <text x="490" y="52" text-anchor="middle" font-size="10.5" fill="#6b6b65">padded to the batch's current max length (6)</text>
+
+  <!-- Row A: Sequence A, full length -->
+  <text x="150" y="110" text-anchor="end" font-size="13" font-weight="700" fill="#111111">Sequence A</text>
+  <text x="150" y="126" text-anchor="end" font-size="10.5" fill="#6b6b65">6 tokens</text>
+  <g>
+    <rect x="270" y="86" width="66" height="48" rx="6" fill="#6dc9c1" stroke="#111111" stroke-width="2"/>
+    <rect x="344" y="86" width="66" height="48" rx="6" fill="#6dc9c1" stroke="#111111" stroke-width="2"/>
+    <rect x="418" y="86" width="66" height="48" rx="6" fill="#6dc9c1" stroke="#111111" stroke-width="2"/>
+    <rect x="492" y="86" width="66" height="48" rx="6" fill="#6dc9c1" stroke="#111111" stroke-width="2"/>
+    <rect x="566" y="86" width="66" height="48" rx="6" fill="#6dc9c1" stroke="#111111" stroke-width="2"/>
+    <rect x="640" y="86" width="66" height="48" rx="6" fill="#6dc9c1" stroke="#111111" stroke-width="2"/>
+  </g>
+
+  <!-- Row B: Sequence B, padded -->
+  <text x="150" y="196" text-anchor="end" font-size="13" font-weight="700" fill="#111111">Sequence B</text>
+  <text x="150" y="212" text-anchor="end" font-size="10.5" fill="#6b6b65">4 tokens + 2 padding</text>
+  <g>
+    <rect x="270" y="172" width="66" height="48" rx="6" fill="#ff8a5b" stroke="#111111" stroke-width="2"/>
+    <rect x="344" y="172" width="66" height="48" rx="6" fill="#ff8a5b" stroke="#111111" stroke-width="2"/>
+    <rect x="418" y="172" width="66" height="48" rx="6" fill="#ff8a5b" stroke="#111111" stroke-width="2"/>
+    <rect x="492" y="172" width="66" height="48" rx="6" fill="#ff8a5b" stroke="#111111" stroke-width="2"/>
+    <rect x="566" y="172" width="66" height="48" rx="6" fill="#fdfaf3" stroke="#111111" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="599" y="202" text-anchor="middle" font-size="16" fill="#c2c1ba">×</text>
+    <rect x="640" y="172" width="66" height="48" rx="6" fill="#fdfaf3" stroke="#111111" stroke-width="2" stroke-dasharray="5 4"/>
+    <text x="673" y="202" text-anchor="middle" font-size="16" fill="#c2c1ba">×</text>
+  </g>
+
+  <!-- masked-out annotation -->
+  <path d="M 673 224 L 673 246" stroke="#111111" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+  <text x="770" y="252" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111111">padding gets −∞ in the</text>
+  <text x="770" y="268" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111111">attention scores</text>
+  <text x="770" y="284" text-anchor="middle" font-size="10.5" fill="#6b6b65">so softmax gives it zero weight</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#111111"/>
+    </marker>
+  </defs>
+</svg>

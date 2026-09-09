@@ -963,7 +963,8 @@ section:last-child { border-bottom: none; }
   margin-bottom: 56px;
 }
 
-.detail-cover img {
+.detail-cover img,
+.detail-cover video {
   width: 100%;
   display: block;
   object-fit: cover;

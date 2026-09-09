@@ -1,0 +1,38 @@
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" font-family="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif">
+  <rect x="3" y="3" width="894" height="294" rx="18" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+
+  <text x="450" y="38" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.05em" fill="#6b6b65">DECIDING WHEN A QUIET NODE IS ACTUALLY DEAD</text>
+
+  <!-- Step 1 -->
+  <rect x="40" y="90" width="230" height="130" rx="14" fill="#6dc9c1" stroke="#111111" stroke-width="2.5"/>
+  <text x="155" y="140" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">Heartbeats</text>
+  <text x="155" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">Arriving</text>
+  <text x="155" y="188" text-anchor="middle" font-size="11" fill="#111111">node checks in</text>
+  <text x="155" y="203" text-anchor="middle" font-size="11" fill="#111111">on schedule</text>
+
+  <path d="M 270 155 L 322 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 2 -->
+  <rect x="326" y="80" width="250" height="150" rx="14" fill="#ffd93d" stroke="#111111" stroke-width="2.5"/>
+  <text x="451" y="130" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">Node Goes Quiet</text>
+  <text x="451" y="155" text-anchor="middle" font-size="11" fill="#111111">a slow node and a dead</text>
+  <text x="451" y="171" text-anchor="middle" font-size="11" fill="#111111">node look identical</text>
+  <text x="451" y="187" text-anchor="middle" font-size="11" fill="#111111">for a little while</text>
+
+  <path d="M 576 155 L 628 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 3 -->
+  <rect x="632" y="90" width="228" height="130" rx="14" fill="#ff8a5b" stroke="#111111" stroke-width="2.5"/>
+  <text x="746" y="140" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">Timeout Passes</text>
+  <text x="746" y="163" text-anchor="middle" font-size="11" fill="#111111">its chunks get</text>
+  <text x="746" y="178" text-anchor="middle" font-size="11" fill="#111111">re-replicated to a</text>
+  <text x="746" y="193" text-anchor="middle" font-size="11" fill="#111111">healthy node</text>
+
+  <text x="450" y="262" text-anchor="middle" font-size="11" fill="#6b6b65">too short a timeout re-replicates constantly, too long a timeout leaves data under-replicated</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#111111"/>
+    </marker>
+  </defs>
+</svg>

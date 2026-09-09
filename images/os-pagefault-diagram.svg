@@ -1,0 +1,47 @@
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" font-family="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif">
+  <rect x="3" y="3" width="894" height="294" rx="18" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+
+  <text x="450" y="38" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.05em" fill="#6b6b65">HANDLING A PAGE FAULT</text>
+
+  <!-- Step 1 -->
+  <rect x="24" y="90" width="196" height="130" rx="14" fill="#7b8cff" stroke="#111111" stroke-width="2.5"/>
+  <text x="122" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">CPU touches a</text>
+  <text x="122" y="158" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">virtual address</text>
+  <text x="122" y="188" text-anchor="middle" font-size="10.5" fill="#111111">a normal instruction,</text>
+  <text x="122" y="202" text-anchor="middle" font-size="10.5" fill="#111111">nothing special yet</text>
+
+  <path d="M 220 155 L 246 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 2 -->
+  <rect x="250" y="90" width="196" height="130" rx="14" fill="#6dc9c1" stroke="#111111" stroke-width="2.5"/>
+  <text x="348" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">Page table</text>
+  <text x="348" y="158" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">lookup misses</text>
+  <text x="348" y="188" text-anchor="middle" font-size="10.5" fill="#111111">the page isn't</text>
+  <text x="348" y="202" text-anchor="middle" font-size="10.5" fill="#111111">mapped in yet</text>
+
+  <path d="M 446 155 L 472 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 3 -->
+  <rect x="476" y="90" width="196" height="130" rx="14" fill="#ffd93d" stroke="#111111" stroke-width="2.5"/>
+  <text x="574" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">Trap to the</text>
+  <text x="574" y="158" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">pager</text>
+  <text x="574" y="188" text-anchor="middle" font-size="10.5" fill="#111111">it loads the page and</text>
+  <text x="574" y="202" text-anchor="middle" font-size="10.5" fill="#111111">updates the page table</text>
+
+  <path d="M 672 155 L 698 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 4 -->
+  <rect x="702" y="90" width="174" height="130" rx="14" fill="#ff8a5b" stroke="#111111" stroke-width="2.5"/>
+  <text x="789" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">Instruction</text>
+  <text x="789" y="158" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">resumes</text>
+  <text x="789" y="188" text-anchor="middle" font-size="10.5" fill="#111111">as if nothing</text>
+  <text x="789" y="202" text-anchor="middle" font-size="10.5" fill="#111111">had happened</text>
+
+  <text x="450" y="255" text-anchor="middle" font-size="11" fill="#6b6b65">all four steps have to be exactly right, or the program never notices the difference</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#111111"/>
+    </marker>
+  </defs>
+</svg>
