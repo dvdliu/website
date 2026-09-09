@@ -361,12 +361,13 @@ section:last-child { border-bottom: none; }
 /* ─── ABOUT ─── */
 .about-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 600px) 320px;
   gap: 48px;
   align-items: start;
 }
 
 .about-bio {
+  max-width: 600px;
   font-size: 15px;
   line-height: 1.75;
   color: var(--ink-muted);
