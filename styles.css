@@ -361,7 +361,7 @@ section:last-child { border-bottom: none; }
 /* ─── ABOUT ─── */
 .about-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) 320px;
   gap: 48px;
   align-items: start;
 }
