@@ -1,6 +1,6 @@
 // Shared behavior for index.html and project detail pages.
 
-// Sidebar nav highlighting (index.html only — no-op elsewhere since the
+// Sidebar nav highlighting (index.html only, a no-op elsewhere since the
 // selectors simply match nothing).
 const sections = document.querySelectorAll('section[id]');
 const links = document.querySelectorAll('aside nav a');
@@ -41,7 +41,7 @@ if (themeToggle) {
   document.body.classList.add('dark-mode');
 }
 
-// Flip cards: click or Enter/Space to flip. Stop bubbling so clickable rows don't navigate.
+// Flip cards. Click or press Enter or Space to flip, and stop bubbling so clickable rows don't navigate.
 document.querySelectorAll('.flip-card').forEach(card => {
   card.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -55,7 +55,7 @@ document.querySelectorAll('.flip-card').forEach(card => {
   });
 });
 
-// Project filters: click a chip to show only cards tagged with that type.
+// Project filters. Click a chip to show only cards tagged with that type.
 const filterChips = document.querySelectorAll('.filter-chip');
 const projectCards = document.querySelectorAll('.project-card');
 

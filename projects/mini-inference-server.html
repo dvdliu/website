@@ -24,10 +24,10 @@
   <div class="detail-status">In Progress</div>
   <h1 class="detail-title">mini-inference-server</h1>
   <p class="detail-tagline">
-    A continuous-batching LLM inference server I built from scratch — the serving-engine
-    ideas behind vLLM and TGI, running for real against a small transformer I hand-wrote
-    in NumPy, because I wanted to actually understand what's inside them instead of just
-    calling an API.
+    A continuous-batching LLM inference server I built from scratch. It runs the
+    serving-engine ideas behind vLLM and TGI for real, against a small transformer I
+    hand-wrote in NumPy, because I wanted to actually understand what's inside them
+    instead of just calling an API.
   </p>
 
   <div class="detail-tags">
@@ -52,18 +52,18 @@
         I wanted my next project to actually be about AI, not just an app with an API
         call bolted onto it. When I looked at how vLLM and TGI actually get their
         throughput, the thing that stuck with me was that almost none of it is about the
-        model itself — it's the scheduling. How do you keep a GPU busy when a hundred
+        model itself. It's the scheduling. How do you keep a GPU busy when a hundred
         people are asking for wildly different amounts of text at wildly different
         times? That's a systems problem, which is exactly the kind of thing I got hooked
         on in my operating systems and distributed systems classes, so it felt like the
         right project to actually sit down and build.
       </p>
       <p>
-        So that's what this is: a real continuous-batching engine — request queue,
-        admission control, a scheduler that packs many in-flight generations into one
-        batched step — running on top of a transformer I wrote myself in plain NumPy so
-        I'd actually understand what the KV-cache underneath it is doing, instead of
-        treating the model as a black box some framework hands me.
+        So that's what this is. It's a real continuous-batching engine, with a request
+        queue, admission control, and a scheduler that packs many in-flight generations
+        into one batched step, running on top of a transformer I wrote myself in plain
+        NumPy so I'd actually understand what the KV-cache underneath it is doing,
+        instead of treating the model as a black box some framework hands me.
       </p>
     </div>
   </div>
@@ -77,66 +77,67 @@
         would've made the demo output readable, but the whole point of the project was
         the serving layer, and I didn't want the interesting KV-cache logic to live
         inside someone else's library where I couldn't point at it. Writing the forward
-        pass myself — embeddings, causal self-attention, the cache read/write path — meant
-        every part the scheduler touches is code I actually understand line by line. The
-        trade-off is honest: weights are randomly initialized by default, so the output
-        is gibberish. I decided that was fine, since the thing I was trying to prove was
-        throughput and correctness, not writing quality — <code>ModelWeights.load()</code>
-        is right there if I ever want to drop in trained weights later.
+        pass myself, the embeddings, the causal self-attention, the cache read and write
+        path, meant every part the scheduler touches is code I actually understand line
+        by line. The trade-off is honest. Weights are randomly initialized by default, so
+        the output is gibberish. I decided that was fine, since the thing I was trying to
+        prove was throughput and correctness, not writing quality, and
+        <code>ModelWeights.load()</code> is right there if I ever want to drop in trained
+        weights later.
       </p>
       <p>
-        <strong>The test that mattered most.</strong> A KV-cache is only worth anything if
-        decoding with it gives you the exact same result as recomputing the whole
-        sequence from scratch. So the first real test I wrote was just that: run a prompt
-        through <code>prefill()</code>, separately decode the last token using a cache
-        from the first N-1, and assert the logits match. Extending that to a ragged
-        batch — two sequences of different lengths, decoded together in one call — is
+        <strong>The test that mattered most.</strong> A KV-cache is only worth anything
+        if decoding with it gives you the exact same result as recomputing the whole
+        sequence from scratch. So the first real test I wrote was just that. I ran a
+        prompt through <code>prefill()</code>, separately decoded the last token using a
+        cache from the first N-1, and asserted the logits matched. Extending that to a
+        ragged batch, two sequences of different lengths decoded together in one call, is
         what actually caught bugs in my padding and masking logic. That test is doing
         more work than any other one in the suite.
       </p>
       <p>
         <strong>Ragged batches, not uniform ones.</strong> The hard part of continuous
         batching is that the sequences sharing a decode step almost never have the same
-        length — someone's three tokens in, someone else just joined. I pad each
-        sequence's cached K/V up to the batch's current max length and mask out the
+        length. Someone's three tokens in, and someone else just joined. I pad each
+        sequence's cached K and V up to the batch's current max length and mask out the
         padding in the attention scores, so it's still one batched matmul instead of a
         Python loop per sequence. It's the same technique real batched-decode
         implementations use before something like PagedAttention avoids the padding
-        waste entirely — a reasonable middle ground for a NumPy/CPU project.
+        waste entirely, and it's a reasonable middle ground for a NumPy and CPU project.
       </p>
       <p>
         <strong>A real scheduling bug I found by testing, not by accident.</strong> My
         first version of <code>step()</code> admitted waiting requests and then
         immediately ran a decode step on the whole batch, including the ones that had
-        just joined. That meant a brand-new request got two tokens in its first tick
-        (one from prefill, one from the decode step right after) while everyone else got
-        one — which quietly breaks the "every sequence advances by one token per tick"
+        just joined. That meant a brand-new request got two tokens in its first tick, one
+        from prefill and one from the decode step right after, while everyone else got
+        one. That quietly breaks the "every sequence advances by one token per tick"
         guarantee the whole design rests on. My scheduler tests caught it immediately by
         asserting exact token counts after a single <code>step()</code>. The fix was to
-        decode only the sequences that were already running, and let newly-admitted ones
+        decode only the sequences that were already running, and let newly admitted ones
         join the batch starting next tick.
       </p>
       <p>
         <strong>Sync core, async edges.</strong> <code>step()</code> is a plain
-        synchronous method on purpose — it's just NumPy matmuls, nothing to await. But
-        that choice meant I couldn't use <code>asyncio.Queue</code> for streaming tokens
-        back to a client the way I first tried: on Python 3.9 it binds to whatever event
-        loop is running the moment it's constructed, and <code>submit()</code> has no
-        guarantee one exists yet. I ran into that as a very confusing test failure before
-        I understood what was happening. The fix ended up simpler than the original
-        design — <code>RequestHandle</code> just polls the request's growing token list
-        instead, so nothing about the producer side has to know or care about asyncio at
-        all.
+        synchronous method on purpose, since it's just NumPy matmuls with nothing to
+        await. But that choice meant I couldn't use <code>asyncio.Queue</code> for
+        streaming tokens back to a client the way I first tried. On Python 3.9 it binds
+        to whatever event loop is running the moment it's constructed, and
+        <code>submit()</code> has no guarantee one exists yet. I ran into that as a very
+        confusing test failure before I understood what was happening. The fix ended up
+        simpler than the original design. <code>RequestHandle</code> just polls the
+        request's growing token list instead, so nothing about the producer side has to
+        know or care about asyncio at all.
       </p>
       <p>
         <strong>Proving it actually helps.</strong> None of this matters if batching
         doesn't measurably beat serving requests one at a time, so <code>bench.py</code>
         runs the exact same model and weights both ways. On my machine, 24 concurrent
         requests generating 40 tokens each finish about 4x faster batched than
-        sequential; 64 requests at 50 tokens each gets to roughly 5x. The peak batch size
-        the benchmark reports is capped below the request count when the cache pool is
-        smaller than demand — which is the admission control actually doing its job, not
-        just a number I'm hoping is true.
+        sequential, and 64 requests at 50 tokens each gets to roughly 5x. The peak batch
+        size the benchmark reports is capped below the request count when the cache pool
+        is smaller than demand, which is the admission control actually doing its job,
+        not just a number I'm hoping is true.
       </p>
     </div>
   </div>
@@ -159,9 +160,9 @@
       </div>
       <!--
         Add a real terminal recording of the benchmark output, or a screen
-        capture of /stats while a batch is running — drop files in /images
+        capture of /stats while a batch is running. Drop files in /images
         and add either an <img> or <video controls> inside a
-        .detail-media-item, e.g.:
+        .detail-media-item, like this
         <div class="detail-media-item"><video src="../images/mini-inference-server-demo.mp4" controls></video></div>
       -->
       <div class="detail-media-placeholder">

@@ -24,10 +24,11 @@
   <div class="detail-status">In Progress</div>
   <h1 class="detail-title">Doodle Room AI Player</h1>
   <p class="detail-tagline">
-    An AI player for my own <a href="doodle-room.html">Doodle Room</a> Pictionary game — I wanted
-    to see if I could get an AI to actually play the game I built with my friends, not just
-    watch it, so it joins as a real player and plays both sides: guessing sketches from a live
-    canvas snapshot, and taking its own turn by planning and drawing a sketch stroke by stroke.
+    An AI player for my own <a href="doodle-room.html">Doodle Room</a> Pictionary game. I
+    wanted to see if I could get an AI to actually play the game I built with my friends,
+    and not just watch it, so it joins as a real player and plays both sides. It guesses
+    sketches from a live canvas snapshot, and it takes its own turn by planning and
+    drawing a sketch stroke by stroke.
   </p>
 
   <div class="detail-tags">
@@ -42,7 +43,7 @@
   </div>
 
   <div class="detail-cover">
-    <!-- Placeholder illustration — swap for a real screenshot/gif of a live game once demoed -->
+    <!-- Placeholder illustration. Swap for a real screenshot or gif of a live game once demoed -->
     <img src="../images/doodle-ai-player.png" alt="Doodle Room AI Player" onerror="this.parentElement.style.display='none'" />
   </div>
 
@@ -50,25 +51,29 @@
     <div class="detail-section-label">Overview</div>
     <div class="detail-body">
       <p>
-        After I built <a href="doodle-room.html">Doodle Room</a> with friends, I kept thinking about
-        what it would take to have an AI actually sit in one of the seats — not a script that draws
-        canned shapes, but something that looks at the same messy, half-finished sketch a human
-        guesser sees and has to make the same call: what is that supposed to be? So this bot connects
-        to a running <code>PictionaryServer</code> as a completely ordinary WebSocket player, with zero
-        changes to Doodle Room itself, and plays the full game on both sides of the board.
+        After I built <a href="doodle-room.html">Doodle Room</a> with friends, I kept
+        thinking about what it would take to have an AI actually sit in one of the seats.
+        Not a script that draws canned shapes, but something that looks at the same
+        messy, half-finished sketch a human guesser sees and has to make the same call,
+        what is that supposed to be. So this bot connects to a running
+        <code>PictionaryServer</code> as a completely ordinary WebSocket player, with
+        zero changes to Doodle Room itself, and plays the full game on both sides of the
+        board.
       </p>
       <p>
-        As a <strong>guesser</strong>, it replays the drawer's stroke events onto a virtual canvas,
-        periodically hands a snapshot to Claude's vision, and sends its best guess as a chat message —
-        pacing itself with cooldowns, backing off once it guesses correctly, and avoiding guesses other
-        players already tried. As the <strong>drawer</strong>, it asks Claude to design a simple
-        line-art sketch of its word as a JSON stroke plan, then executes that plan as real timed
+        As a <strong>guesser</strong>, it replays the drawer's stroke events onto a
+        virtual canvas, periodically hands a snapshot to Claude's vision, and sends its
+        best guess as a chat message. It paces itself with cooldowns, backs off once it
+        guesses correctly, and avoids guesses other players already tried. As the
+        <strong>drawer</strong>, it asks Claude to design a simple line-art sketch of its
+        word as a JSON stroke plan, then executes that plan as real timed
         <code>DRAW</code> events, budgeted to fit inside the turn's clock.
       </p>
       <p>
-        Both roles boil down to the same idea in opposite directions — one call turns pixels into a
-        word, the other turns a word into pixels — wrapped in a small state machine that tracks turns,
-        scoring, and timing entirely from the server's own messages.
+        Both roles boil down to the same idea in opposite directions. One call turns
+        pixels into a word, and the other turns a word into pixels, and both are wrapped
+        in a small state machine that tracks turns, scoring, and timing entirely from the
+        server's own messages.
       </p>
     </div>
   </div>
@@ -77,48 +82,56 @@
     <div class="detail-section-label">Design &amp; Implementation</div>
     <div class="detail-body">
       <p>
-        <strong>Building against the real protocol, not a mock of it.</strong> Before writing a line
-        of the bot, I read straight through <code>GameRoom.java</code> and <code>pictionary.html</code>
-        to get the message shapes exactly right — the phase machine
-        (<code>LOBBY → PICKING_WORD → DRAWING → TURN_END → GAME_OVER</code>), what a masked word looks
-        like, how a close guess is scored. I wanted the bot to be indistinguishable from another
-        browser tab at the protocol level, not a special-cased client the server has to know about.
+        <strong>Building against the real protocol, not a mock of it.</strong> Before
+        writing a line of the bot, I read straight through <code>GameRoom.java</code> and
+        <code>pictionary.html</code> to get the message shapes exactly right. I wanted to
+        know the phase machine
+        (<code>LOBBY → PICKING_WORD → DRAWING → TURN_END → GAME_OVER</code>), what a
+        masked word looks like, and how a close guess is scored. I wanted the bot to be
+        indistinguishable from another browser tab at the protocol level, not a
+        special-cased client the server has to know about.
       </p>
       <p>
-        <strong>Guessing on a timer, not on every stroke.</strong> My first instinct was to trigger a
-        guess attempt on every incoming <code>DRAW</code> event, but that's both wasteful and a bad
-        way to play — a human doesn't re-guess after every pen movement either. Instead there's a
-        background loop that waits a couple seconds, snapshots whatever's on the canvas so far, asks
-        Claude, and then backs off on a cooldown — reset early if a <code>LETTER_REVEAL</code> comes in,
-        since that's genuinely new information worth acting on sooner. It also tracks every other
-        player's wrong guesses from the chat feed so it doesn't repeat them, which felt like the kind
-        of thing a socially-aware player would naturally do.
+        <strong>Guessing on a timer, not on every stroke.</strong> My first instinct was
+        to trigger a guess attempt on every incoming <code>DRAW</code> event, but that's
+        both wasteful and a bad way to play, since a human doesn't re-guess after every
+        pen movement either. Instead there's a background loop that waits a couple
+        seconds, snapshots whatever's on the canvas so far, and asks Claude, then backs
+        off on a cooldown. That cooldown resets early if a <code>LETTER_REVEAL</code>
+        comes in, since that's genuinely new information worth acting on sooner. It also
+        tracks every other player's wrong guesses from the chat feed so it doesn't repeat
+        them, which felt like the kind of thing a socially aware player would naturally
+        do.
       </p>
       <p>
-        <strong>Making the drawer role fail gracefully.</strong> Asking Claude for a stroke plan as
-        JSON works well most of the time, but "most of the time" isn't good enough when a stuck turn
-        means the whole game stalls for every human player waiting on it. So there's a strict parser
-        that only accepts well-formed strokes, clamps any coordinate outside 0–1, and drops anything
-        malformed — and if the whole response fails to parse, or the API call itself fails, a fallback
-        artist draws a simple generic shape instead. The turn always produces <em>something</em>,
-        even in the worst case.
+        <strong>Making the drawer role fail gracefully.</strong> Asking Claude for a
+        stroke plan as JSON works well most of the time, but "most of the time" isn't
+        good enough when a stuck turn means the whole game stalls for every human player
+        waiting on it. So there's a strict parser that only accepts well-formed strokes,
+        clamps any coordinate outside the 0 to 1 range, and drops anything malformed. If
+        the whole response fails to parse, or the API call itself fails, a fallback
+        artist draws a simple generic shape instead. The turn always produces
+        <em>something</em>, even in the worst case.
       </p>
       <p>
-        <strong>The bug I didn't expect: constructing things too early.</strong> I originally created
-        the bot's <code>asyncio.Event</code> in <code>__init__</code>, which works fine until you
-        remember Python 3.9 binds that object to whatever event loop is running the moment it's built —
-        and a bot object gets constructed before <code>asyncio.run()</code> ever starts one. It surfaced
-        as a confusing crash the first time I tried to unit test the bot directly instead of running it
-        live. The fix was to make the event lazy — created on first real use inside an already-running
-        loop — which in hindsight is just a more honest reflection of when the object is actually needed.
+        <strong>The bug I didn't expect, constructing things too early.</strong> I
+        originally created the bot's <code>asyncio.Event</code> in <code>__init__</code>,
+        which works fine until you remember Python 3.9 binds that object to whatever
+        event loop is running the moment it's built. A bot object gets constructed before
+        <code>asyncio.run()</code> ever starts one, so it surfaced as a confusing crash
+        the first time I tried to unit test the bot directly instead of running it live.
+        The fix was to make the event lazy, created on first real use inside an
+        already-running loop, which in hindsight is just a more honest reflection of when
+        the object is actually needed.
       </p>
       <p>
-        <strong>Testing it without a live game running.</strong> I didn't want "run two browser tabs
-        and watch" to be the only way to know if this worked, so the test suite spins up an actual
-        WebSocket server in-process with a scripted sequence of real server messages and drives the
-        bot through a full turn — connect, watch strokes come in, guess, get told it was correct, see
-        the game end. That test caught wiring bugs a unit test on the bot's internal logic alone never
-        would have.
+        <strong>Testing it without a live game running.</strong> I didn't want "run two
+        browser tabs and watch" to be the only way to know if this worked, so the test
+        suite spins up an actual WebSocket server in-process with a scripted sequence of
+        real server messages and drives the bot through a full turn. It connects, watches
+        strokes come in, guesses, gets told it was correct, and sees the game end. That
+        test caught wiring bugs a unit test on the bot's internal logic alone never would
+        have.
       </p>
     </div>
   </div>
@@ -141,13 +154,13 @@
         <img src="../images/doodle-ai-player.png" alt="Doodle Room AI Player placeholder illustration" onerror="this.parentElement.style.display='none'" />
       </div>
       <!--
-        Swap in a real recording once it's run against a live game — drop a
+        Swap in a real recording once it's run against a live game. Drop a
         file in /images and add either an <img> or <video controls> inside
-        a .detail-media-item, e.g.:
+        a .detail-media-item, like this
         <div class="detail-media-item"><video src="../images/doodle-ai-player-demo.mp4" controls></video></div>
       -->
       <div class="detail-media-placeholder">
-        Illustration only for now — a real gameplay recording is coming once it's run against a live game
+        Illustration only for now. A real gameplay recording is coming once it's run against a live game
       </div>
     </div>
   </div>

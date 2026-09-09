@@ -49,18 +49,19 @@
     <div class="detail-body">
       <p>
         I'd never really built anything with React or Node before this, so I picked a
-        project idea I'd actually want to use myself as an excuse to learn both properly:
-        a social app that matches people by film taste using Letterboxd, since I already
-        log everything I watch there. It started as pure practice and turned into
+        project idea I'd actually want to use myself as an excuse to learn both properly.
+        I made a social app that matches people by film taste using Letterboxd, since I
+        already log everything I watch there. It started as pure practice and turned into
         something with real auth, a real database, and a matching algorithm I'm actually
         proud of.
       </p>
       <p>
         Users log posts and reviews, see a feed of friends' recent Letterboxd activity,
-        and can check a compatibility score against any Letterboxd username — their own
-        diary compared against someone else's. Under the hood it's a fairly standard
-        full-stack shape (React/Redux, an Express API, MongoDB via Mongoose), but a couple
-        of the smaller decisions ended up being the parts I learned the most from.
+        and can check a compatibility score against any Letterboxd username, comparing
+        their own diary against someone else's. Under the hood it's a fairly standard
+        full-stack shape, with React and Redux on the frontend, an Express API, and
+        MongoDB via Mongoose. A couple of the smaller decisions ended up being the parts
+        I learned the most from.
       </p>
     </div>
   </div>
@@ -72,35 +73,36 @@
         <strong>Building against an API I didn't have access to yet.</strong> The
         Letterboxd API requires application approval, and mine was still pending while I
         was building this. Rather than stall the whole project on that, I wrote a mock
-        data layer that generates a deterministic fake "diary" for any username — seeded
-        from an FNV-1a hash of the username through a small seedable PRNG (mulberry32), so
-        the same username always gets the same fake watch history and the same match score
-        instead of random noise on every request. Every mocked response is flagged with
-        <code>pending: true</code> so the UI can show a banner about it, and the real
-        controller checks for an API key at request time — once Letterboxd approves access
-        and I add the credentials, it starts returning live data with no code changes on
-        either side. That constraint actually made me think harder about the interface
-        between "real" and "mock" data than I would have otherwise.
+        data layer that generates a deterministic fake "diary" for any username. It's
+        seeded from an FNV-1a hash of the username through a small seedable PRNG called
+        mulberry32, so the same username always gets the same fake watch history and the
+        same match score instead of random noise on every request. Every mocked response
+        is flagged with <code>pending: true</code> so the UI can show a banner about it,
+        and the real controller checks for an API key at request time. Once Letterboxd
+        approves access and I add the credentials, it starts returning live data with no
+        code changes on either side. That constraint actually made me think harder about
+        the interface between "real" and "mock" data than I would have otherwise.
       </p>
       <p>
         <strong>The compatibility score.</strong> I didn't want to just count shared
-        movies — two people who've both seen a hundred popular films but rate everything
-        oppositely shouldn't score as highly as two people with a smaller, pickier overlap
-        who actually agree. So the score is half overlap (shared films over the union of
-        both diaries) and half rating agreement (based on the average difference in their
-        ratings on the films they've both logged, normalized against the 4.5-point
-        half-star range) — simple, but it took a couple of tries to land on weights that
-        felt right when I tested it against my own account and a few friends'.
+        movies, because two people who've both seen a hundred popular films but rate
+        everything oppositely shouldn't score as highly as two people with a smaller,
+        pickier overlap who actually agree. So the score is half overlap, shared films
+        over the union of both diaries, and half rating agreement, based on the average
+        difference in their ratings on the films they've both logged and normalized
+        against the 4.5-point half-star range. It's a simple formula, but it took a couple
+        of tries to land on weights that felt right when I tested it against my own
+        account and a few friends'.
       </p>
       <p>
-        <strong>Two ways to sign in, one honest hack.</strong> Email/password sign-in
-        issues a JWT I sign myself; "Sign in with Google" hands back Google's own ID token
-        instead. The auth middleware needs to tell those apart on every request, and the
-        way it does it is genuinely a bit of a hack — my own JWTs are short, Google's are
-        long, so I branch on token length before deciding whether to verify it myself or
-        just decode it. It works, and it's a good example of a pragmatic shortcut I'd want
-        to replace with something more principled (like a claims-based check) if this ever
-        needed to be hardened.
+        <strong>Two ways to sign in, one honest hack.</strong> Email and password sign-in
+        issues a JWT I sign myself, and "Sign in with Google" hands back Google's own ID
+        token instead. The auth middleware needs to tell those apart on every request, and
+        the way it does it is genuinely a bit of a hack. My own JWTs are short and
+        Google's are long, so I branch on token length before deciding whether to verify
+        it myself or just decode it. It works, and it's a good example of a pragmatic
+        shortcut I'd want to replace with something more principled, like a claims-based
+        check, if this ever needed to be hardened.
       </p>
     </div>
   </div>
@@ -125,8 +127,8 @@
         <img src="../images/letterbox.png" alt="Filmterest" onerror="this.parentElement.style.display='none'" />
       </div>
       <!--
-        Add more demos here — drop files in /images and add either an <img>
-        or <video controls> inside a .detail-media-item, e.g.:
+        Add more demos here. Drop files in /images and add either an <img>
+        or <video controls> inside a .detail-media-item, like this
         <div class="detail-media-item"><video src="../images/filmterest-demo.mp4" controls></video></div>
       -->
       <div class="detail-media-placeholder">

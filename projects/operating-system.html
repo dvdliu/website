@@ -25,8 +25,8 @@
   <h1 class="detail-title">Operating System</h1>
   <p class="detail-tagline">
     A mock operating system in C++ with a custom thread library, virtual memory pager,
-    and networked filesystem — the class assignment that turned into the reason I fell
-    in love with systems programming.
+    and networked filesystem. It's the class assignment that turned into the reason I
+    fell in love with systems programming.
   </p>
 
   <div class="detail-tags">
@@ -57,10 +57,11 @@
       </p>
       <p>
         What got me was realizing how much of what I'd been treating as "how computers
-        just work" — a thread waking up, a page fault resolving invisibly, a file read
-        returning the right bytes — is actually a pile of deliberate engineering decisions
-        that somebody had to get right. Building each layer myself instead of just reading
-        about it was the only way I was going to really understand that.
+        just work" is actually a pile of deliberate engineering decisions that somebody
+        had to get right. A thread waking up, a page fault resolving invisibly, a file
+        read returning the right bytes, none of that is automatic. Building each layer
+        myself instead of just reading about it was the only way I was going to really
+        understand that.
       </p>
     </div>
   </div>
@@ -72,29 +73,29 @@
         <strong>The thread library taught me that the hard part isn't scheduling.</strong>
         I went in assuming the interesting problem would be picking a scheduling policy.
         It turned out the part that actually demanded care was context switching and
-        synchronization — getting a thread's saved state exactly right so it resumes as
-        if nothing happened, and making sure two threads touching shared state can't
+        synchronization. I had to get a thread's saved state exactly right so it resumes
+        as if nothing happened, and make sure two threads touching shared state can't
         interleave in a way that corrupts it. Those are the bugs that don't show up every
-        run, which taught me to be a lot more paranoid about concurrent code than any
+        run, and they taught me to be a lot more paranoid about concurrent code than any
         lecture did.
       </p>
       <p>
         <strong>Virtual memory made "abstraction" feel real.</strong> Implementing the
-        pager — managing page tables, handling page faults — is where the idea of virtual
-        memory stopped being a diagram in a textbook and became something I had to get
-        exactly right or watch the whole system behave incorrectly in confusing ways. There's
-        a particular kind of understanding that only comes from debugging a page fault
-        handler that isn't doing what you expect.
+        pager, managing page tables and handling page faults, is where the idea of
+        virtual memory stopped being a diagram in a textbook. It became something I had
+        to get exactly right or watch the whole system behave incorrectly in confusing
+        ways. There's a particular kind of understanding that only comes from debugging a
+        page fault handler that isn't doing what you expect.
       </p>
       <p>
         <strong>Why I layered the filesystem on top instead of building it standalone.</strong>
-        By the time I got to the networked filesystem piece, I already had a thread library
-        and a memory system to build on — which meant I got to feel, directly, how much a
-        higher layer depends on the correctness of the layers underneath it. A subtle bug
-        in the pager doesn't stay contained to the pager; it shows up as a weird, hard-to-explain
-        failure two layers up. That's the lesson from this project I've carried into
-        everything since: get the foundation right, because you will absolutely pay for it
-        later if you don't.
+        By the time I got to the networked filesystem piece, I already had a thread
+        library and a memory system to build on. That meant I got to feel, directly, how
+        much a higher layer depends on the correctness of the layers underneath it. A
+        subtle bug in the pager doesn't stay contained to the pager. It shows up as a
+        weird, hard to explain failure two layers up. That's the lesson from this project
+        I've carried into everything since. Get the foundation right, because you will
+        absolutely pay for it later if you don't.
       </p>
     </div>
   </div>
@@ -116,8 +117,8 @@
         <img src="../images/os.png" alt="Operating System" onerror="this.parentElement.style.display='none'" />
       </div>
       <!--
-        Add more demos here — drop files in /images and add either an <img>
-        or <video controls> inside a .detail-media-item, e.g.:
+        Add more demos here. Drop files in /images and add either an <img>
+        or <video controls> inside a .detail-media-item, like this
         <div class="detail-media-item"><video src="../images/os-demo.mp4" controls></video></div>
       -->
       <div class="detail-media-placeholder">
