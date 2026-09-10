@@ -41,11 +41,9 @@
     <a href="https://github.com/dvdliu/mini-inference-server" target="_blank" class="detail-action primary">View on GitHub →</a>
   </div>
 
-<!--
-  No cover image for now. Add one back (or a <video>) inside a .detail-cover
-  div here once there's a real demo to show, see doodle-room.html for the
-  pattern.
--->
+  <div class="detail-cover">
+    <img src="../images/benchmark.png" alt="Benchmark output comparing continuous batching against sequential serving" />
+  </div>
 
   <div class="detail-section">
     <div class="detail-section-label">Overview</div>
@@ -135,10 +133,45 @@
         None of this matters if batching doesn't measurably beat serving requests one
         at a time, so <code>bench.py</code> runs the exact same model and weights both
         ways. On my machine, 24 concurrent requests generating 40 tokens each finish
-        about 4x faster batched than sequential, and 64 requests at 50 tokens each
-        gets to roughly 5x. The peak batch size the benchmark reports is capped below
+        about 2.3x faster batched than sequential, and 64 requests at 50 tokens each
+        lands around 2.2x. The peak batch size the benchmark reports is capped below
         the request count when the cache pool is smaller than demand, which is the
         admission control actually doing its job.
+      </p>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Benchmark Results</div>
+    <div class="detail-body">
+      <p>
+        The benchmark runs two passes over the same model with the same randomly
+        initialized weights: one that serves each request in isolation and waits for
+        it to finish before starting the next, and one that feeds them all through the
+        continuous-batching engine. The only variable is the serving strategy. Below
+        are the outputs for a small and a larger run, showing how the throughput gap
+        holds as the request count scales up.
+      </p>
+
+      <div class="detail-media-grid">
+        <div class="detail-media-item">
+          <img src="../images/benchmark_base.png" alt="bench.py output: 24 requests × 40 tokens, 2.25x speedup" />
+        </div>
+        <div class="detail-media-item">
+          <img src="../images/benchmark_64.png" alt="bench.py output: 64 requests × 50 tokens, 2.20x speedup" />
+        </div>
+      </div>
+
+      <p>
+        The peak concurrent batch size stays at 21 regardless of how many total
+        requests are submitted because it's set by the KV cache block pool, not
+        the request count. With the default 64 blocks at size 16, the pool
+        saturates at around 21 in-flight sequences given the prompt and generation
+        length in use. Once it's full, the scheduler queues new requests and admits
+        them one by one as running sequences finish and free their blocks. To raise
+        the ceiling you'd pass a larger <code>--num-blocks</code> value; to see
+        every request admitted at once you'd keep the request count below the
+        pool's capacity.
       </p>
     </div>
   </div>
