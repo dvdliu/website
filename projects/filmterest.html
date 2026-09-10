@@ -47,15 +47,13 @@
     <div class="detail-section-label">Overview</div>
     <div class="detail-body">
       <p>
-        I'd never really built anything with React or Node before this, so I picked a
-        project idea I'd actually want to use myself as an excuse to learn both properly.
+        Going into this project, I'd never really built a web app before this, so I picked a
+        project idea I'd actually want to use myself as an excuse to learn properly.
         I made a social app that matches people by film taste using Letterboxd, since I
-        already log everything I watch there. It started as pure practice and turned into
-        something with real auth, a real database, and a matching algorithm I'm actually
-        proud of.
+        already log everything I watch there. This was a really useful project that taught me REST APIs, DB design, auth, and OAuth.
       </p>
       <p>
-        Users log posts and reviews, see a feed of friends' recent Letterboxd activity,
+        In this app, users log posts and reviews, see a feed of friends' recent Letterboxd activity,
         and can check a compatibility score against any Letterboxd username, comparing
         their own diary against someone else's. Under the hood it's a fairly standard
         full-stack shape, with React and Redux on the frontend, an Express API, and
@@ -84,6 +82,23 @@
     <div class="detail-section-label">Challenges &amp; Lessons Learned</div>
     <div class="detail-body">
       <p>
+        This was also my first time designing REST endpoints and working across an
+        entire stack instead of just one piece of it. I settled on keeping resource
+        identifiers and filters in the URL and reserving the request body for anything
+        that actually changes state, which kept the API predictable once I stuck to it
+        consistently. To keep the frontend's Redux state from drifting out of sync with
+        the server, I stopped trusting optimistic local updates and instead updated the
+        store directly from whatever the response actually returned. Validation ended
+        up living in both places on purpose, a lightweight check on the frontend for
+        instant feedback, and the real enforcement on the server since that's the only
+        copy I could actually trust. Bugs stopped being contained to one file the way
+        they were in smaller class projects, and a mismatch between what the API
+        returned and what the frontend expected could look like a rendering bug on one
+        end and a data bug on the other. I also got a lot better at tracing those once I
+        made a habit of checking the network tab's request and response together
+        before touching any code.
+      </p>
+      <p>
         The Letterboxd API requires application approval, and mine was still pending
         while I was building this, so I wrote a mock data layer that generates a
         deterministic fake "diary" for any username instead of stalling the project.
@@ -105,13 +120,6 @@
         difference in their ratings on the films they've both logged. It took a couple
         of tries to land on weights that felt right when I tested it against my own
         account and a few friends'.
-      </p>
-      <p>
-        The auth middleware needs to tell my own JWTs apart from Google's ID tokens on
-        every request, and the way it does that is genuinely a bit of a hack. My JWTs
-        are short and Google's are long, so it branches on token length. It works, and
-        it's a good example of a pragmatic shortcut I'd want to replace with something
-        more principled, like a claims-based check, if this ever needed to be hardened.
       </p>
     </div>
   </div>

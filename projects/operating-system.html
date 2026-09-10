@@ -25,8 +25,7 @@
   <h1 class="detail-title">Operating System</h1>
   <p class="detail-tagline">
     A mock operating system in C++ with a custom thread library, virtual memory pager,
-    and networked filesystem. It's the class assignment in EECS 482 at Umich that turned into the reason I
-    fell in love with systems programming, and was my favorite class that I took during my time there.
+    and networked filesystem. I started this project in the OS class at Umich, EECS 482, and was one of my favorite classes during my time at University. Building this project taught to think deeply about the code I write, and contributed a lot to my passion and excitement for learning in programming. 
   </p>
 
   <div class="detail-tags">
@@ -51,65 +50,79 @@
       <p>
         I mentioned in my <a href="../#about">about section</a> that operating
         systems is the class that made me actually fall in love with programming, and this
-        project is why. It started as the standard assignment sequence for Michigan's OS
-        course, and I kept going past where the course stopped, because I wanted to see
-        the whole picture connect. I wanted a thread library I wrote myself, a virtual
-        memory pager sitting underneath it, and a networked filesystem built on top of both.
+        project is why. This project started as the standard assignment sequence for Umich's EECS 482 OS
+        course, and after the courses ended I continued to build on top of the project. 
+        My main goals were to build a thread library, a virtual memory pager sitting underneath it, and a networked filesystem built on top of both.
       </p>
       <p>
-        What got me was realizing how much of what I'd been treating as "how computers
-        just work" is actually a pile of deliberate engineering decisions that somebody
-        had to get right. A thread waking up, a page fault resolving invisibly, a file
-        read returning the right bytes, none of that is automatic. Building each layer
-        myself instead of just reading about it was the only way I was going to really
-        understand that.
-      </p>
-    </div>
-  </div>
-
-  <div class="detail-section">
-    <div class="detail-section-label">Implementation</div>
-    <div class="detail-body">
-      <p>
-        The project has three layers built on top of each other. A user-level thread
-        library handles its own scheduling, context switching, and synchronization
-        primitives. A virtual memory pager underneath it manages page tables and page
-        faults. A networked filesystem sits on top of both. Each layer depends on the
-        correctness of the one below it, which was very much the point of building them
-        in that order.
+        The project has three layers built on top of each other, and each layer depends
+        on the correctness of the one below it, which was very much the point of
+        building them in that order.
       </p>
       <img class="detail-diagram" src="../images/os-diagram.svg" alt="Four stacked layers: CPU and hardware at the bottom, then the virtual memory pager, then the thread library, then the networked filesystem on top" />
     </div>
   </div>
 
   <div class="detail-section">
-    <div class="detail-section-label">Challenges &amp; Lessons Learned</div>
+    <div class="detail-section-label">Thread Library</div>
     <div class="detail-body">
       <p>
-        I went into the thread library assuming the interesting problem would be
-        picking a scheduling policy. It turned out the part that actually demanded care
-        was context switching and synchronization. I had to get a thread's saved state
+        The thread library is a user-level implementation, so it owns its own
+        scheduling, context switching, and synchronization primitives instead of
+        relying on anything the underlying OS provides. Each thread gets its own saved
+        execution context, and the library is responsible for switching between them,
+        running its own scheduler, and providing mutexes and condition variables for
+        threads to coordinate safely.
+      </p>
+      <p>
+        I went into this layer assuming the interesting problem would be picking a
+        scheduling policy. It turned out the part that actually demanded care was
+        context switching and synchronization. I had to get a thread's saved state
         exactly right so it resumes as if nothing happened, and make sure two threads
         touching shared state can't interleave in a way that corrupts it. Those are the
         bugs that don't show up every run, and they taught me to be a lot more paranoid
         about concurrent code than any lecture did.
       </p>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Virtual Memory Pager</div>
+    <div class="detail-body">
       <p>
-        Implementing the pager, managing page tables and handling page faults, is where
-        virtual memory stopped being a diagram in a textbook. It became something I had
-        to get exactly right or watch the whole system behave incorrectly in confusing
-        ways. There's a particular kind of understanding that only comes from debugging
-        a page fault handler that isn't doing what you expect.
+        The pager sits underneath the thread library and manages page tables and page
+        faults directly. When a running thread touches a virtual address that isn't
+        mapped in yet, the pager traps in, loads the right page, and updates the page
+        table so the faulting instruction can resume as if nothing had happened.
       </p>
       <img class="detail-diagram" src="../images/os-pagefault-diagram.svg" alt="Four steps: the CPU touches a virtual address, the page table lookup misses, the pager traps in and loads the page while updating the page table, and the instruction resumes as if nothing had happened" />
       <p>
-        By the time I got to the networked filesystem, I already had a thread library
-        and a memory system to build on, which meant I got to feel directly how much a
-        higher layer depends on the correctness of the layers underneath it. A subtle
-        bug in the pager doesn't stay contained to the pager. It shows up as a weird,
-        hard to explain failure two layers up. That's the lesson from this project I've
-        carried into everything since. Get the foundation right, because you will pay
-        for it later if you don't.
+        Implementing this layer, managing page tables and handling page faults, is
+        where virtual memory stopped being a diagram in a textbook. It became something
+        I had to get exactly right or watch the whole system behave incorrectly in
+        confusing ways. There's a particular kind of understanding that only comes from
+        debugging a page fault handler that isn't doing what you expect.
+      </p>
+    </div>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-section-label">Networked Filesystem</div>
+    <div class="detail-body">
+      <p>
+        The networked filesystem sits on top of both layers below it, exposing file
+        operations to client processes over the network instead of a local disk. It's
+        built entirely on the thread library and pager underneath it, so every request
+        the filesystem serves ultimately depends on both of them behaving correctly.
+      </p>
+      <p>
+        By the time I got to this layer, I already had a thread library and a memory
+        system to build on, which meant I got to feel directly how much a higher layer
+        depends on the correctness of the layers underneath it. A subtle bug in the
+        pager doesn't stay contained to the pager. It shows up as a weird, hard to
+        explain failure two layers up. That's the lesson from this project I've carried
+        into everything since. Get the foundation right, because you will pay for it
+        later if you don't.
       </p>
     </div>
   </div>
