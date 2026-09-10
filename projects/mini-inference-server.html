@@ -25,9 +25,8 @@
   <h1 class="detail-title">Continuous Batching Engine</h1>
   <p class="detail-tagline">
     A continuous-batching LLM inference server I built from scratch. It runs the
-    serving-engine ideas behind vLLM and TGI for real, against a small transformer I
-    hand-wrote in NumPy, because I wanted to actually understand what's inside them
-    instead of just calling an API.
+    serving-engine ideas behind vLLM and TGI, against a small transformer I
+    wrote in NumPy.
   </p>
 
   <div class="detail-tags">
@@ -49,21 +48,18 @@
     <div class="detail-section-label">Overview</div>
     <div class="detail-body">
       <p>
-        I wanted my next project to actually be about AI, not just an app with an API
-        call bolted onto it. When I looked at how vLLM and TGI actually get their
-        throughput, the thing that stuck with me was that almost none of it is about the
-        model itself. It's the scheduling. How do you keep a GPU busy when a hundred
-        people are asking for wildly different amounts of text at wildly different
-        times? That's a systems problem, which is exactly the kind of thing I got hooked
-        on in my operating systems and distributed systems classes, so it felt like the
-        right project to actually sit down and build.
+        I wanted this project to be about AI itself. When I looked at how vLLM and TGI
+        actually get their throughput, the thing that stuck with me was that almost
+        none of it comes from the model. It's the scheduling. How do you keep a GPU
+        busy when a hundred people are asking for different amounts of text at
+        different times?
       </p>
       <p>
-        So that's what this is. It's a real continuous-batching engine, with a request
+        That question is what got me building this. It's a continuous-batching engine, with a request
         queue, admission control, and a scheduler that packs many in-flight generations
         into one batched step, running on top of a transformer I wrote myself in plain
         NumPy so I'd actually understand what the KV-cache underneath it is doing,
-        instead of treating the model as a black box some framework hands me.
+        instead of treating the model as a black box.
       </p>
     </div>
   </div>
@@ -75,9 +71,7 @@
         The engine has a request queue with admission control, a scheduler that packs
         many in-flight generations into one batched step, and a KV-cache block
         manager, all running on top of a transformer I wrote myself in plain NumPy
-        rather than a pretrained model. I wanted the KV-cache logic to be code I
-        actually understand line by line instead of something living inside someone
-        else's library. Weights are randomly initialized by default, since the point
+        rather than a pretrained model. Weights are randomly initialized by default, since the point
         of the project is serving mechanics and throughput, not text quality, and
         <code>ModelWeights.load()</code> is there if I ever want to drop in trained
         weights later.
@@ -92,14 +86,14 @@
       <p>
         A KV-cache is only worth anything if decoding with it gives you the exact same
         result as recomputing the whole sequence from scratch, so the first real test
-        I wrote was just that. I ran a prompt through <code>prefill()</code>,
+        I wrote was to test that. I ran a prompt through <code>prefill()</code>,
         separately decoded the last token using a cache from the first N-1, and
         asserted the logits matched. Extending that to a ragged batch, two sequences
         of different lengths decoded together in one call, is what actually caught
         bugs in my padding and masking logic.
       </p>
       <p>
-        The hard part of continuous batching is that sequences sharing a decode step
+        The hard part I found for continuous batching is that sequences sharing a decode step
         almost never have the same length, someone's three tokens in while someone
         else just joined. I pad each sequence's cached K and V up to the batch's
         current max length and mask out the padding in the attention scores, so it's
