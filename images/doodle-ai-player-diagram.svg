@@ -1,0 +1,56 @@
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" font-family="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif">
+  <rect x="3" y="3" width="894" height="394" rx="18" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+
+  <text x="450" y="34" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.05em" fill="#6b6b65">ONE PROTOCOL CONNECTION, TWO LOOPS HANGING OFF IT</text>
+
+  <!-- Shared connection -->
+  <rect x="350" y="52" width="200" height="62" rx="14" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
+  <text x="450" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#111111">Connected to</text>
+  <text x="450" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#111111">PictionaryServer</text>
+
+  <path d="M 400 114 C 330 140, 260 150, 200 168" stroke="#111111" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="290" y="140" text-anchor="middle" font-size="10.5" fill="#6b6b65">not my turn</text>
+
+  <path d="M 500 114 C 570 140, 640 150, 700 168" stroke="#111111" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="610" y="140" text-anchor="middle" font-size="10.5" fill="#6b6b65">my turn</text>
+
+  <!-- Guessing loop -->
+  <text x="205" y="190" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.04em" fill="#111111">GUESSING</text>
+
+  <rect x="45" y="200" width="120" height="58" rx="10" fill="#6dc9c1" stroke="#111111" stroke-width="2"/>
+  <text x="105" y="224" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">Snapshot</text>
+  <text x="105" y="240" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">canvas</text>
+  <path d="M 165 229 L 183 229" stroke="#111111" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <rect x="187" y="200" width="120" height="58" rx="10" fill="#6dc9c1" stroke="#111111" stroke-width="2"/>
+  <text x="247" y="224" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">Ask Claude</text>
+  <text x="247" y="240" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">(vision)</text>
+  <path d="M 307 229 L 325 229" stroke="#111111" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <rect x="329" y="200" width="126" height="58" rx="10" fill="#6dc9c1" stroke="#111111" stroke-width="2"/>
+  <text x="392" y="224" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">Send</text>
+  <text x="392" y="240" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">CHAT_GUESS</text>
+
+  <path d="M 392 258 C 392 300, 105 300, 105 258" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 4" fill="none" marker-end="url(#arrow)"/>
+  <text x="248" y="316" text-anchor="middle" font-size="10.5" fill="#6b6b65">cooldown, then try again, until correct or the turn ends</text>
+
+  <!-- Drawing sequence -->
+  <text x="695" y="190" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.04em" fill="#111111">DRAWING</text>
+
+  <rect x="570" y="200" width="160" height="58" rx="10" fill="#ff8a5b" stroke="#111111" stroke-width="2"/>
+  <text x="650" y="224" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">Plan a stroke</text>
+  <text x="650" y="240" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">JSON with Claude</text>
+  <path d="M 730 229 L 748 229" stroke="#111111" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <rect x="752" y="200" width="120" height="58" rx="10" fill="#ff8a5b" stroke="#111111" stroke-width="2"/>
+  <text x="812" y="224" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">Execute</text>
+  <text x="812" y="240" text-anchor="middle" font-size="10.5" font-weight="700" fill="#111111">DRAW events</text>
+
+  <text x="695" y="316" text-anchor="middle" font-size="10.5" fill="#6b6b65">once, timed to the turn's clock</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#111111"/>
+    </marker>
+  </defs>
+</svg>

@@ -9,14 +9,14 @@
   <rect x="28" y="214" width="34" height="26" rx="5" fill="#f5f0e3" stroke="#111111" stroke-width="2"/>
   <text x="45" y="260" text-anchor="middle" font-size="11" fill="#6b6b65">requests</text>
 
-  <path d="M 68 195 L 108 195" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 72 195 L 104 195" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
 
   <!-- Waiting queue -->
   <rect x="112" y="150" width="140" height="90" rx="12" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
   <text x="182" y="188" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">Waiting Queue</text>
   <text x="182" y="208" text-anchor="middle" font-size="11" fill="#111111">FCFS admission</text>
 
-  <path d="M 252 195 L 292 195" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 258 195 L 288 195" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
 
   <!-- Scheduler -->
   <rect x="296" y="130" width="220" height="130" rx="14" fill="#ffd93d" stroke="#111111" stroke-width="2.5"/>
@@ -29,7 +29,7 @@
   <rect x="446" y="196" width="26" height="22" rx="4" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
   <text x="406" y="238" text-anchor="middle" font-size="10.5" fill="#111111">one token per running sequence</text>
 
-  <path d="M 516 195 L 556 195" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 522 195 L 552 195" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
 
   <!-- Model -->
   <rect x="560" y="130" width="200" height="130" rx="14" fill="#ff8a5b" stroke="#111111" stroke-width="2.5"/>
@@ -44,7 +44,7 @@
   <text x="770" y="68" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111111">streamed back</text>
 
   <!-- KV-cache block pool -->
-  <path d="M 406 260 L 406 300" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)" marker-start="url(#arrowstart)"/>
+  <path d="M 406 266 L 406 294" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)" marker-start="url(#arrowstart)"/>
   <rect x="296" y="304" width="220" height="110" rx="14" fill="#6dc9c1" stroke="#111111" stroke-width="2.5"/>
   <text x="406" y="330" text-anchor="middle" font-size="14" font-weight="700" fill="#111111">KV-Cache Blocks</text>
   <g>

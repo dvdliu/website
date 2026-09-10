@@ -77,7 +77,7 @@
         small client wrapper that either calls the real API or falls back to a
         deterministic mock data layer, depending on whether credentials are configured.
       </p>
-      <div class="detail-diagram-placeholder">Diagram: request flow through the real vs. mock Letterboxd data layer</div>
+      <img class="detail-diagram" src="../images/filmterest-diagram.svg" alt="A request for Letterboxd data branches on whether an API key is configured, either to the mock data layer seeded from a hash of the username, or to the real Letterboxd API, both going through the same client wrapper" />
     </div>
   </div>
 

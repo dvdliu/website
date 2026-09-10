@@ -1,0 +1,43 @@
+<svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" font-family="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif">
+  <rect x="3" y="3" width="894" height="414" rx="18" fill="#fdfaf3" stroke="#111111" stroke-width="2"/>
+
+  <text x="450" y="38" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.05em" fill="#6b6b65">ONE CONTROLLER, TWO SOURCES OF TRUTH</text>
+
+  <!-- Incoming request -->
+  <rect x="370" y="64" width="160" height="66" rx="12" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
+  <text x="450" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#111111">Request for</text>
+  <text x="450" y="110" text-anchor="middle" font-size="13" font-weight="700" fill="#111111">Letterboxd data</text>
+
+  <path d="M 420 136 C 340 172, 260 192, 210 200" stroke="#111111" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 480 136 C 560 172, 640 192, 690 200" stroke="#111111" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+
+  <text x="450" y="170" text-anchor="middle" font-size="11" fill="#6b6b65">API key configured?</text>
+
+  <!-- Mock path -->
+  <rect x="60" y="214" width="300" height="88" rx="14" fill="#ffd93d" stroke="#111111" stroke-width="2.5"/>
+  <text x="210" y="242" text-anchor="middle" font-size="13" font-weight="700" fill="#111111">No, mock data layer</text>
+  <text x="210" y="262" text-anchor="middle" font-size="10.5" fill="#111111">username hashed (FNV-1a) and fed</text>
+  <text x="210" y="278" text-anchor="middle" font-size="10.5" fill="#111111">into mulberry32 for a deterministic diary</text>
+
+  <path d="M 210 308 L 210 324" stroke="#111111" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+  <rect x="80" y="334" width="260" height="56" rx="12" fill="#f5f0e3" stroke="#111111" stroke-width="2"/>
+  <text x="210" y="358" text-anchor="middle" font-size="11" font-weight="700" fill="#111111">same fake diary every time,</text>
+  <text x="210" y="375" text-anchor="middle" font-size="11" font-weight="700" fill="#111111">flagged <tspan font-family="monospace">pending: true</tspan></text>
+
+  <!-- Real path -->
+  <rect x="540" y="214" width="300" height="88" rx="14" fill="#6dc9c1" stroke="#111111" stroke-width="2.5"/>
+  <text x="690" y="242" text-anchor="middle" font-size="13" font-weight="700" fill="#111111">Yes, real Letterboxd API</text>
+  <text x="690" y="262" text-anchor="middle" font-size="10.5" fill="#111111">the same client wrapper calls</text>
+  <text x="690" y="278" text-anchor="middle" font-size="10.5" fill="#111111">out over the network instead</text>
+
+  <path d="M 690 308 L 690 324" stroke="#111111" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+  <rect x="560" y="334" width="260" height="56" rx="12" fill="#f5f0e3" stroke="#111111" stroke-width="2"/>
+  <text x="690" y="358" text-anchor="middle" font-size="11" font-weight="700" fill="#111111">live diary and reviews,</text>
+  <text x="690" y="375" text-anchor="middle" font-size="11" font-weight="700" fill="#111111">no code changes needed</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#111111"/>
+    </marker>
+  </defs>
+</svg>

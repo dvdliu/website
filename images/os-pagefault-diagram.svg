@@ -10,7 +10,7 @@
   <text x="122" y="188" text-anchor="middle" font-size="10.5" fill="#111111">a normal instruction,</text>
   <text x="122" y="202" text-anchor="middle" font-size="10.5" fill="#111111">nothing special yet</text>
 
-  <path d="M 220 155 L 246 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 228 155 L 242 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
 
   <!-- Step 2 -->
   <rect x="250" y="90" width="196" height="130" rx="14" fill="#6dc9c1" stroke="#111111" stroke-width="2.5"/>
@@ -19,7 +19,7 @@
   <text x="348" y="188" text-anchor="middle" font-size="10.5" fill="#111111">the page isn't</text>
   <text x="348" y="202" text-anchor="middle" font-size="10.5" fill="#111111">mapped in yet</text>
 
-  <path d="M 446 155 L 472 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 454 155 L 468 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
 
   <!-- Step 3 -->
   <rect x="476" y="90" width="196" height="130" rx="14" fill="#ffd93d" stroke="#111111" stroke-width="2.5"/>
@@ -28,7 +28,7 @@
   <text x="574" y="188" text-anchor="middle" font-size="10.5" fill="#111111">it loads the page and</text>
   <text x="574" y="202" text-anchor="middle" font-size="10.5" fill="#111111">updates the page table</text>
 
-  <path d="M 672 155 L 698 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 680 155 L 694 155" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
 
   <!-- Step 4 -->
   <rect x="702" y="90" width="174" height="130" rx="14" fill="#ff8a5b" stroke="#111111" stroke-width="2.5"/>

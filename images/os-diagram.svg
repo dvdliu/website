@@ -8,21 +8,21 @@
   <text x="450" y="103" text-anchor="middle" font-size="18" font-weight="700" fill="#111111">Networked Filesystem</text>
   <text x="450" y="125" text-anchor="middle" font-size="12" fill="#111111">reads and writes go through the pager and threads below</text>
 
-  <path d="M 450 150 L 450 178" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 450 156 L 450 172" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
 
   <!-- Thread library (middle) -->
   <rect x="140" y="182" width="620" height="80" rx="14" fill="#ffd93d" stroke="#111111" stroke-width="2.5"/>
   <text x="450" y="215" text-anchor="middle" font-size="18" font-weight="700" fill="#111111">Thread Library</text>
   <text x="450" y="237" text-anchor="middle" font-size="12" fill="#111111">scheduling, context switching, synchronization primitives</text>
 
-  <path d="M 450 262 L 450 290" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 450 268 L 450 284" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
 
   <!-- Virtual memory pager (bottom of the three) -->
   <rect x="60" y="294" width="780" height="80" rx="14" fill="#6dc9c1" stroke="#111111" stroke-width="2.5"/>
   <text x="450" y="327" text-anchor="middle" font-size="18" font-weight="700" fill="#111111">Virtual Memory Pager</text>
   <text x="450" y="349" text-anchor="middle" font-size="12" fill="#111111">page tables, page fault handling</text>
 
-  <path d="M 450 374 L 450 400" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M 450 380 L 450 396" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
 
   <!-- Hardware base -->
   <rect x="14" y="404" width="872" height="44" rx="10" fill="#111111"/>
