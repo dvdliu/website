@@ -25,8 +25,8 @@
   <h1 class="detail-title">Distributed Filesystem</h1>
   <p class="detail-tagline">
     A distributed file storage layer with replication, fault tolerance, and consistent
-    metadata management. I'm building it because I want to really understand how real
-    storage systems handle failure, and not just read about it.
+    metadata management. I'm building it because I'm curious how distributed storage
+    systems actually handle failure under the hood.
   </p>
 
   <div class="detail-tags">
@@ -50,21 +50,16 @@
     <div class="detail-section-label">Overview</div>
     <div class="detail-body">
       <p>
-        This one comes straight out of my distributed systems class at Michigan. I got
-        genuinely hooked on the idea that so much of systems design isn't about writing
-        clever code, it's about deciding what you're willing to give up. You trade
-        consistency for availability, or simplicity for performance, and then you have to
-        live with that trade-off correctly under failure. Reading about that in a
-        textbook only goes so far, so DistFS is me actually building a storage layer that
-        has to make those calls for real. It chunks files and spreads them across nodes,
-        replicates them so a single node failure doesn't lose data, and keeps metadata
-        consistent about which node holds which chunk even as the cluster changes shape
-        underneath it.
+        This project is mainly inspired by the Distributed Systems class I took at
+        Michigan, plus my day to day experience with distributed systems at Whova,
+        things like Amazon's S3. I realized I only had a surface level understanding
+        of concepts like CAP and sharding, and wanted to actually build something to
+        understand them from the ground up.
       </p>
       <p>
-        The honest goal is a filesystem I'd eventually trust to store my own files on my
-        own hardware. That's a good forcing function, because "good enough for a demo"
-        and "good enough that I'd actually rely on it" are very different bars.
+        The goal is to build a filesystem I'd eventually trust to store my own files
+        on my own hardware. That's also what keeps me motivated to get the design
+        right instead of cutting corners.
       </p>
     </div>
   </div>
@@ -75,8 +70,8 @@
       <p>
         DistFS is built around a set of storage primitives. Files are chunked and
         spread across nodes, replicated so a single node failure doesn't lose data, and
-        tracked in metadata that records which node holds which chunk. I deliberately
-        started with these before touching anything like consensus, because I wanted
+        tracked in metadata that records which node holds which chunk. I
+        started with this before touching anything like consensus, because I wanted
         the foundational data path to be solid before building coordination logic on
         top of it.
       </p>
@@ -88,22 +83,17 @@
     <div class="detail-section-label">Challenges &amp; Lessons Learned</div>
     <div class="detail-body">
       <p>
-        Every design decision in this project eventually reduces to the same tension.
-        How much coordination am I willing to pay for on the write path, so a read
-        never returns stale or missing data after a node drops out? Go's goroutines and
-        channels make the concurrent part of that manageable to reason about, since
-        there are many nodes and many in-flight requests, but they don't make the
-        actual trade-off decision for you. That's still the part I spend the most time
-        thinking through before I write any code.
+        A lot of design decision I've made comes down to the same tradeoff. How much
+        coordination do I pay for on writes so reads never come back stale after a
+        node drops out? Goroutines and channels make the concurrency itself easy
+        enough to reason about, but they don't make that tradeoff for you. That's
+        still what I spend most of my time thinking about before writing any code.
       </p>
       <p>
-        Failure detection and re-replication are the pieces I'm actively working
-        through right now. The real question is how aggressively to react to a node
-        going quiet, since a slow node and a dead node look identical for a little
-        while, without triggering a storm of unnecessary re-replication traffic every
-        time something hiccups. It's the same class of problem as a distributed
-        systems paper's "failure detector." It just feels a lot more concrete when
-        it's your own cluster timing out.
+        Failure detection and re-replication are what I'm working through right now.
+        A slow node and a dead node look identical for a bit, so the question is how
+        fast to react without setting off a storm of re-replication every time
+        something hiccups. Classic failure detector problem.
       </p>
       <img class="detail-diagram" src="../images/distfs-failure-diagram.svg" alt="A three-step flow: heartbeats arriving normally, the node going quiet where a slow and a dead node look identical, then a timeout passing and chunks getting re-replicated to a healthy node" />
     </div>
