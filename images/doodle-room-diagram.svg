@@ -42,9 +42,9 @@
   </g>
 
   <path d="M 748 371 C 800 371, 800 250, 748 223" stroke="#111111" stroke-width="2" fill="none" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
-  <text x="817" y="300" text-anchor="middle" font-size="10" fill="#6b6b65">TURN_END,</text>
-  <text x="817" y="314" text-anchor="middle" font-size="10" fill="#6b6b65">next turn</text>
-  <text x="817" y="328" text-anchor="middle" font-size="10" fill="#6b6b65">or GAME_OVER</text>
+  <text x="838" y="300" text-anchor="middle" font-size="10" fill="#6b6b65">TURN_END,</text>
+  <text x="838" y="314" text-anchor="middle" font-size="10" fill="#6b6b65">next turn</text>
+  <text x="838" y="328" text-anchor="middle" font-size="10" fill="#6b6b65">or GAME_OVER</text>
 
   <defs>
     <marker id="arrow" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto">

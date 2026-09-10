@@ -40,8 +40,8 @@
 
   <!-- Response -->
   <path d="M 760 175 C 800 150, 815 90, 790 70" fill="none" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)"/>
-  <text x="770" y="55" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111111">tokens</text>
-  <text x="770" y="68" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111111">streamed back</text>
+  <text x="715" y="55" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111111">tokens</text>
+  <text x="715" y="68" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111111">streamed back</text>
 
   <!-- KV-cache block pool -->
   <path d="M 406 266 L 406 294" stroke="#111111" stroke-width="2.5" marker-end="url(#arrow)" marker-start="url(#arrowstart)"/>
