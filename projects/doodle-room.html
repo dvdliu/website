@@ -104,13 +104,34 @@
     <div class="detail-section-label">Challenges &amp; Lessons Learned</div>
     <div class="detail-body">
       <p>
+        I chose Java for the backend mainly to learn it properly, since it's a
+        popular language and close enough to C++, which I already knew well. It's
+         a class focused language, so it forces you to think in terms
+        of dedicated types for a room, a player, a message, instead of letting
+        everything stay a JSON, and that fit how I wanted to reason
+        about this project. Class and data type design turned out to be one of the
+        more interesting problems here, mostly because everything moving over the
+        WebSocket connection is JSON, but Java wants strongly typed classes. My
+        first pass used one flat message class with a <code>type</code> field and
+        every possible field bolted on as optional, which worked but felt sloppy,
+        since a <code>DRAW</code> message has no business carrying a
+        <code>word</code> field, and a <code>TURN_START</code> message has no
+        business carrying coordinates. I ended up defining a small hierarchy instead, a base message
+        type with just the <code>type</code> field, and Gson deserializes into the
+        right subclass based on that before any handler touches it. Room and Player
+        are the two classes almost everything else hangs off of, and both game
+        modes share the same underlying draw event types, since a stroke is a
+        stroke whether it's part of free draw or a Pictionary turn, so I never had
+        to write the canvas logic twice.
+      </p>
+      <p>
         The trickiest part of the state machine was guarding against stale timers.
         Every scheduled callback, whether it's the per-second timer tick, the letter
         reveals, or the auto-pick-a-word timeout, captures a "turn token" and re-checks
         it before acting, so a callback that fires after a turn has already ended can't
         corrupt the next one. That came directly out of tracing through what happens
-        when a drawer disconnects mid-turn, an edge case that's easy to skip until you
-        actually think it through.
+        when a drawer disconnects mid-turn, which was an edge case that I missed until I
+        came across it later in the project.
       </p>
       <p>
         Guess evaluation ended up mattering more than I expected. An exact match is the
