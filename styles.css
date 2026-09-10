@@ -208,6 +208,14 @@ section:last-child { border-bottom: none; }
   gap: 12px;
 }
 
+.section-intro {
+  font-size: 15px;
+  color: var(--ink-faint);
+  margin-top: -24px;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
 .section-label::after {
   content: '';
   flex: 1;
