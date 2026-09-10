@@ -15,11 +15,10 @@
 
   <text x="100" y="315" text-anchor="middle" font-size="11" fill="#6b6b65">split into chunks</text>
 
-  <!-- Nodes (cylinders) -->
+  <!-- Nodes (boxes) -->
   <!-- Node A -->
   <g>
-    <path d="M 620 60 h 160 a 14 14 0 0 1 14 14 v 92 a 14 26 0 0 1 -14 26 h -160 a 14 26 0 0 1 -14 -26 v -92 a 14 14 0 0 1 14 -14 z" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
-    <ellipse cx="700" cy="74" rx="94" ry="14" fill="#efece5" stroke="#111111" stroke-width="2.5"/>
+    <rect x="620" y="60" width="160" height="132" rx="16" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
     <text x="700" y="115" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">Node A</text>
     <rect x="655" y="130" width="34" height="18" rx="4" fill="#6dc9c1" stroke="#111111" stroke-width="1.5"/>
     <text x="672" y="143" text-anchor="middle" font-size="10" font-weight="700" fill="#111111">C1</text>
@@ -29,8 +28,7 @@
 
   <!-- Node B -->
   <g>
-    <path d="M 620 195 h 160 a 14 14 0 0 1 14 14 v 92 a 14 26 0 0 1 -14 26 h -160 a 14 26 0 0 1 -14 -26 v -92 a 14 14 0 0 1 14 -14 z" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
-    <ellipse cx="700" cy="209" rx="94" ry="14" fill="#efece5" stroke="#111111" stroke-width="2.5"/>
+    <rect x="620" y="195" width="160" height="132" rx="16" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
     <text x="700" y="250" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">Node B</text>
     <rect x="655" y="265" width="34" height="18" rx="4" fill="#6dc9c1" stroke="#111111" stroke-width="1.5"/>
     <text x="672" y="278" text-anchor="middle" font-size="10" font-weight="700" fill="#111111">C1</text>
@@ -40,8 +38,7 @@
 
   <!-- Node C -->
   <g>
-    <path d="M 620 330 h 160 a 14 14 0 0 1 14 14 v 92 a 14 26 0 0 1 -14 26 h -160 a 14 26 0 0 1 -14 -26 v -92 a 14 14 0 0 1 14 -14 z" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
-    <ellipse cx="700" cy="344" rx="94" ry="14" fill="#efece5" stroke="#111111" stroke-width="2.5"/>
+    <rect x="620" y="330" width="160" height="132" rx="16" fill="#f5f0e3" stroke="#111111" stroke-width="2.5"/>
     <text x="700" y="385" text-anchor="middle" font-size="15" font-weight="700" fill="#111111">Node C</text>
     <rect x="655" y="400" width="34" height="18" rx="4" fill="#ff8a5b" stroke="#111111" stroke-width="1.5"/>
     <text x="672" y="413" text-anchor="middle" font-size="10" font-weight="700" fill="#111111">C2</text>
