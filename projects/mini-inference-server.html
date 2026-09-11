@@ -40,6 +40,21 @@
     <a href="https://github.com/dvdliu/mini-inference-server" target="_blank" class="detail-action primary">View on GitHub →</a>
   </div>
 
+  <div class="detail-section">
+    <div class="detail-section-label">AI Usage</div>
+    <div class="detail-body">
+      <p>
+        The project idea came out of a conversation with Claude about what
+        actually makes engines like vLLM and TGI fast, which is what pointed me at
+        scheduling over model quality as the interesting problem. Claude was also involved with the 
+        design too, for things like the KV-cache block manager and the admission
+        control policy, it laid out a few viable approaches with their tradeoffs each
+        time, but the choice of which to build, and every line of the implementation,
+        was mine.
+      </p>
+    </div>
+  </div>
+
   <div class="detail-cover">
     <img src="../images/benchmark.png" alt="Benchmark output comparing continuous batching against sequential serving" />
   </div>

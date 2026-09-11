@@ -41,6 +41,22 @@
     <a href="https://github.com/dvdliu/doodle-room-ai-player" target="_blank" class="detail-action primary">View on GitHub →</a>
   </div>
 
+  <div class="detail-section">
+    <div class="detail-section-label">AI Usage</div>
+    <div class="detail-body">
+      <p>
+        For design
+        choices, like whether the guess loop should react to every incoming stroke or
+        wait behind a cooldown, or whether to trust the stroke-plan JSON outright versus
+        validating and clamping it after the fact, I had Claude lay out the options and
+        tradeoffs, but I made the call each time. It also caught real bugs during
+        development, an Anthropic SDK argument that had quietly changed, and a
+        coordinate-space mismatch that made the bot's own drawings invisible to a human
+        player.
+      </p>
+    </div>
+  </div>
+
   <div class="detail-cover">
     <video src="../videos/ai-doodle-bot-demo.mp4" controls></video>
   </div>
