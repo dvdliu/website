@@ -975,8 +975,12 @@ section:last-child { border-bottom: none; }
 .detail-cover video {
   width: 100%;
   display: block;
-  object-fit: cover;
 }
+
+.detail-cover img { object-fit: cover; }
+
+/* contain, not cover: a demo recording should never lose its edges to cropping */
+.detail-cover video { object-fit: contain; background: var(--ink); }
 
 .detail-section { margin-bottom: 56px; }
 
