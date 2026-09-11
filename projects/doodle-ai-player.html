@@ -41,6 +41,10 @@
     <a href="https://github.com/dvdliu/doodle-room-ai-player" target="_blank" class="detail-action primary">View on GitHub →</a>
   </div>
 
+  <div class="detail-cover">
+    <video src="../videos/ai-doodle-bot-demo.mp4" controls></video>
+  </div>
+
   <div class="detail-section">
     <div class="detail-section-label">Overview</div>
     <div class="detail-body">
@@ -70,10 +74,35 @@
   </div>
 
   <div class="detail-section">
+    <div class="detail-section-label">Working with Generative AI</div>
+    <div class="detail-body">
+      <p>
+        Claude is confident even when it's wrong, and that shows up in both roles. As a
+        guesser it'll sometimes answer with a full sentence, stray punctuation, or a word
+        that's plainly the wrong length for what's been revealed. Rather than prompt that
+        away, the code just doesn't trust the raw text: it's trimmed down to a single clean
+        token, and the actual correctness check happens server-side as an exact string
+        match, so a hallucinated guess just misses, the same as a human's wrong guess.
+      </p>
+      <p>
+        The bigger risk was the drawer's stroke plan, since a broken response there could
+        stall the whole game, not just cost one guess. The JSON Claude returns is never
+        assumed clean, it can arrive wrapped in markdown fences or with a few malformed
+        points despite the prompt asking for neither. A parser strips fences, keeps only
+        well-formed points, clamps their coordinates into range, and drops the rest, rather
+        than throwing away a whole otherwise-fine plan over one bad entry. If that still
+        comes back empty, a hardcoded fallback shape kicks in so the turn always draws
+        <em>something</em>, guaranteed structured output by construction, not by hoping the
+        model behaves.
+      </p>
+    </div>
+  </div>
+
+  <div class="detail-section">
     <div class="detail-section-label">Implementation</div>
     <div class="detail-body">
       <p>
-        Before writing any code, I read straight through <code>GameRoom.java</code>
+        Before writing any code, I felt it was important to read through <code>GameRoom.java</code>
         and <code>pictionary.html</code> to get the message shapes right, the phase
         machine (<code>LOBBY → PICKING_WORD → DRAWING → TURN_END → GAME_OVER</code>),
         what a masked word looks like, and how a close guess gets scored. The goal was
@@ -91,20 +120,12 @@
     <div class="detail-body">
       <p>
         My first instinct was to guess on every incoming <code>DRAW</code> event, but
-        that's wasteful, and humans don't re-guess after every pen stroke either.
+        that was inefficient and wasteful, and people don't normally re-guess after every pen stroke anyways.
         Instead a background loop waits a couple seconds, snapshots the canvas, asks
         Claude, and backs off on a cooldown, one that resets early on a
         <code>LETTER_REVEAL</code> since that's genuinely new information. It also
         tracks other players' wrong guesses from the chat feed so it doesn't repeat
         them.
-      </p>
-      <p>
-        Asking Claude for a stroke plan as JSON works most of the time, but "most of
-        the time" isn't good enough when a stuck turn stalls the game for every human
-        waiting on it. So a strict parser only accepts well-formed strokes, clamps
-        coordinates outside the 0 to 1 range, and drops anything malformed. If parsing
-        fails, or the API call itself fails, a fallback artist draws a simple generic
-        shape instead, so the turn always produces <em>something</em>.
       </p>
       <p>
         The most confusing bug came from constructing things too early. I created the
